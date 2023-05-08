@@ -17,4 +17,8 @@ public class User {
     private BigDecimal balance;
     private UserType type;
 
+    public void updatePassword(String password) {
+        this.password = password;
+    }
+
 }

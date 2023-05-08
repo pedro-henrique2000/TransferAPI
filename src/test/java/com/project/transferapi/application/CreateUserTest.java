@@ -67,4 +67,10 @@ class CreateUserTest {
         this.createUser.invoke(user);
         verify(this.encryptPassword, atLeastOnce()).encrypt("any_password");
     }
+
+    @Test
+    void whenSaveNewUser_givenValidPassword_thenUpdateUserWithEncryptedPassword() {
+        this.createUser.invoke(user);
+        verify(this.user, atLeastOnce()).updatePassword("encrypted_password");
+    }
 }
