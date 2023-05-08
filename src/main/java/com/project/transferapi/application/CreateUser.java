@@ -2,6 +2,7 @@ package com.project.transferapi.application;
 
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.ConflictException;
+import com.project.transferapi.domain.ports.IEncryptPassword;
 import com.project.transferapi.domain.ports.IFindUserByEmail;
 import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CreateUser {
 
+    private final IEncryptPassword encryptPassword;
     private final IFindUserByEmail findUserByEmail;
     private final IFindUserByLegalDocumentNumber findUserByLegalDocumentNumber;
 
@@ -22,6 +24,8 @@ public class CreateUser {
         this.findUserByEmail.find(user.getEmail()).ifPresent(u -> {
             throw new ConflictException("given email already registered");
         });
+
+        this.encryptPassword.encrypt(user.getPassword());
 
         return null;
     }
