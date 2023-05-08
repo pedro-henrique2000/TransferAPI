@@ -2,6 +2,7 @@ package com.project.transferapi.application;
 
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.ConflictException;
+import com.project.transferapi.domain.ports.IFindUserByEmail;
 import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,18 +26,31 @@ class CreateUserTest {
     IFindUserByLegalDocumentNumber findUserByLegalDocumentNumber;
 
     @Mock
+    IFindUserByEmail findUserByEmail;
+
+    @Mock
     User user;
 
     @BeforeEach
     void setup() {
-        when(user.getLegalDocumentNumber()).thenReturn("any_document");
+        lenient().when(this.user.getLegalDocumentNumber()).thenReturn("any_document");
+        lenient().when(this.user.getEmail()).thenReturn("any_mail@mail.com");
 
         lenient().when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.empty());
+        lenient().when(this.findUserByEmail.find("any_mail@mail.com")).thenReturn(Optional.empty());
     }
 
     @Test
     void whenSaveNewUserGivenAlreadyRegisteredLegalDocumentNumber_thenThrowConflictException() {
         when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.of(mock(User.class)));
+        assertThrows(ConflictException.class, () -> {
+            this.createUser.invoke(user);
+        });
+    }
+
+    @Test
+    void whenSaveNewUserGivenAlreadyRegisteredEmail_thenThrowConflictException() {
+        when(this.findUserByEmail.find("any_mail@mail.com")).thenReturn(Optional.of(mock(User.class)));
         assertThrows(ConflictException.class, () -> {
             this.createUser.invoke(user);
         });
