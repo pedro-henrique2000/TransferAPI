@@ -25,7 +25,7 @@ public class CreateUser {
             throw new ConflictException("given email already registered");
         });
 
-        this.encryptPassword.encrypt(user.getPassword());
+        user.updatePassword(this.encryptPassword.encrypt(user.getPassword()));
 
         return null;
     }
