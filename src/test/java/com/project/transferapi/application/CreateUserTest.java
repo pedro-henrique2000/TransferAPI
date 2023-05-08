@@ -29,12 +29,14 @@ class CreateUserTest {
 
     @BeforeEach
     void setup() {
-        lenient().when(this.findUserByLegalDocumentNumber.find(anyString())).thenReturn(Optional.empty());
+        when(user.getLegalDocumentNumber()).thenReturn("any_document");
+
+        lenient().when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.empty());
     }
 
     @Test
     void whenSaveNewUserGivenAlreadyRegisteredLegalDocumentNumber_thenThrowConflictException() {
-        when(this.findUserByLegalDocumentNumber.find(anyString())).thenReturn(Optional.of(mock(User.class)));
+        when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.of(mock(User.class)));
         assertThrows(ConflictException.class, () -> {
             this.createUser.invoke(user);
         });
