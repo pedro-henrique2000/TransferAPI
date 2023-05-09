@@ -29,9 +29,9 @@ public class CreateUser {
 
         user.updatePassword(this.encryptPassword.encrypt(user.getPassword()));
 
-        this.saveUserRepository.save(user);
+        User savedUser = this.saveUserRepository.save(user);
 
-        return null;
+        return savedUser.getId();
     }
 
 }

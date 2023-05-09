@@ -57,7 +57,7 @@ class CreateUserTest {
         lenient().when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.empty());
         lenient().when(this.findUserByEmail.find("any_mail@mail.com")).thenReturn(Optional.empty());
         lenient().when(this.encryptPassword.encrypt("any_password")).thenReturn("encrypted_password");
-        lenient().when(this.saveUserRepository.save(user)).thenReturn(savedUser);
+        lenient().when(this.saveUserRepository.save(any(User.class))).thenReturn(savedUser);
     }
 
     @Test
