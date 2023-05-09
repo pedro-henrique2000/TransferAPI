@@ -15,6 +15,8 @@ public class UserController implements UserAPI {
 
     @Override
     public ResponseEntity<Void> postUser(CreateUserDTO createUserDTO) {
+        this.createUser.invoke(this.mapper.toUserEntity(createUserDTO));
+
         return ResponseEntity
                 .status(201)
                 .build();
