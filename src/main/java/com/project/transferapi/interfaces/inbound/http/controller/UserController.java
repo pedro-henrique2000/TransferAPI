@@ -15,7 +15,9 @@ public class UserController implements UserAPI {
 
     @Override
     public ResponseEntity<Void> postUser(CreateUserDTO createUserDTO) {
-        return null;
+        return ResponseEntity
+                .status(201)
+                .build();
     }
 
 }
