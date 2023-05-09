@@ -26,6 +26,7 @@ public class UserModelMapper {
         return UserModel.builder()
                 .id(user.getId())
                 .balance(user.getBalance())
+                .password(user.getPassword())
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .legalDocumentNumber(user.getLegalDocumentNumber())
