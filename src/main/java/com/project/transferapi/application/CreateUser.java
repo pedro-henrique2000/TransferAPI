@@ -19,11 +19,11 @@ public class CreateUser {
     private final ISaveUserRepository saveUserRepository;
 
     public Long invoke(final User user) {
-        this.findUserByLegalDocumentNumber.find(user.getLegalDocumentNumber()).ifPresent(u -> {
+        this.findUserByLegalDocumentNumber.findByLegalDocumentNumber(user.getLegalDocumentNumber()).ifPresent(u -> {
             throw new ConflictException("given legal document number already registered");
         });
 
-        this.findUserByEmail.find(user.getEmail()).ifPresent(u -> {
+        this.findUserByEmail.findByEmail(user.getEmail()).ifPresent(u -> {
             throw new ConflictException("given email already registered");
         });
 

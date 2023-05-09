@@ -54,8 +54,8 @@ class CreateUserTest {
         lenient().when(this.user.getPassword()).thenReturn("any_password");
         lenient().when(this.savedUser.getId()).thenReturn(1L);
 
-        lenient().when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.empty());
-        lenient().when(this.findUserByEmail.find("any_mail@mail.com")).thenReturn(Optional.empty());
+        lenient().when(this.findUserByLegalDocumentNumber.findByLegalDocumentNumber("any_document")).thenReturn(Optional.empty());
+        lenient().when(this.findUserByEmail.findByEmail("any_mail@mail.com")).thenReturn(Optional.empty());
         lenient().when(this.encryptPassword.encrypt("any_password")).thenReturn("encrypted_password");
         lenient().when(this.saveUserRepository.save(any(User.class))).thenReturn(savedUser);
     }
@@ -68,7 +68,7 @@ class CreateUserTest {
 
     @Test
     void whenSaveNewUser_givenAlreadyRegisteredLegalDocumentNumber_thenThrowConflictException() {
-        when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.of(mock(User.class)));
+        when(this.findUserByLegalDocumentNumber.findByLegalDocumentNumber("any_document")).thenReturn(Optional.of(mock(User.class)));
         assertThrows(ConflictException.class, () -> {
             this.createUser.invoke(user);
         });
@@ -76,7 +76,7 @@ class CreateUserTest {
 
     @Test
     void whenSaveNewUser_givenAlreadyRegisteredEmail_thenThrowConflictException() {
-        when(this.findUserByEmail.find("any_mail@mail.com")).thenReturn(Optional.of(mock(User.class)));
+        when(this.findUserByEmail.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(mock(User.class)));
         assertThrows(ConflictException.class, () -> {
             this.createUser.invoke(user);
         });

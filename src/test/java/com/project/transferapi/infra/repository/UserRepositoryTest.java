@@ -41,7 +41,7 @@ class UserRepositoryTest {
 
     @Test
     void whenFindUserByEmail_givenValidEmail_thenOptionalUser() {
-        Optional<User> optionalUser = repository.find("any_mail@mail.com");
+        Optional<User> optionalUser = repository.findByEmail("any_mail@mail.com");
         assertTrue(optionalUser.isPresent());
         assertEquals(user, optionalUser.get());
     }
@@ -49,7 +49,7 @@ class UserRepositoryTest {
     @Test
     void whenFindUserByEmail_givenInvalidEmail_thenOptionalEmpty() {
         when(userRepository.findByEmail("invalid_mail@mail.com")).thenReturn(Optional.empty());
-        Optional<User> user = repository.find("invalid_mail@mail.com");
+        Optional<User> user = repository.findByEmail("invalid_mail@mail.com");
         assertTrue(user.isEmpty());
     }
 
