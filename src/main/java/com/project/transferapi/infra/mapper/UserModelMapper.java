@@ -17,6 +17,8 @@ public class UserModelMapper {
                 .password(userModel.getPassword())
                 .balance(userModel.getBalance())
                 .fullName(userModel.getFullName())
+                .createdAt(userModel.getCreatedAt())
+                .updatedAt(userModel.getUpdatedAt())
                 .build();
     }
 
@@ -28,6 +30,8 @@ public class UserModelMapper {
                 .fullName(user.getFullName())
                 .legalDocumentNumber(user.getLegalDocumentNumber())
                 .type(user.getType().toString())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
