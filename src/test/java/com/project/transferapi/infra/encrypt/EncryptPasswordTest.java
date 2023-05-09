@@ -20,9 +20,15 @@ class EncryptPasswordTest {
     PasswordEncoder passwordEncoder;
 
     @Test
-    void whenEncryptPassword_givenValidPassword_shouldCallPasswordEncoder() {
-        encryptPassword.encrypt("any_password");
+    void whenEncryptPassword_givenValidPassword_shouldReturnPassword() {
+        when(this.passwordEncoder.encode("any_password")).thenReturn("new_password");
+        String encrypted = this.encryptPassword.encrypt("any_password");
+        assertEquals("new_password", encrypted);
+    }
 
+    @Test
+    void whenEncryptPassword_givenValidPassword_shouldCallPasswordEncoder() {
+        this.encryptPassword.encrypt("any_password");
         verify(this.passwordEncoder, times(1)).encode("any_password");
     }
 

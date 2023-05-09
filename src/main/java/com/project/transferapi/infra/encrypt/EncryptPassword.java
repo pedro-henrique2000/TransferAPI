@@ -13,7 +13,7 @@ public class EncryptPassword implements IEncryptPassword {
 
     @Override
     public String encrypt(final String password) {
-        return null;
+        return this.passwordEncoder.encode(password);
     }
 
 }
