@@ -3,6 +3,7 @@ package com.project.transferapi.infra.repository;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.ports.IFindUserByEmail;
 import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
+import com.project.transferapi.domain.ports.ISaveUserRepository;
 import com.project.transferapi.infra.mapper.UserModelMapper;
 import com.project.transferapi.infra.model.UserModel;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +13,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserRepository implements IFindUserByEmail, IFindUserByLegalDocumentNumber {
+public class UserRepository implements IFindUserByEmail, IFindUserByLegalDocumentNumber, ISaveUserRepository {
 
     private final JpaUserRepository jpaUserRepository;
     private final UserModelMapper userModelMapper;
@@ -27,6 +28,11 @@ public class UserRepository implements IFindUserByEmail, IFindUserByLegalDocumen
     public Optional<User> findByLegalDocumentNumber(String legalDocumentNumber) {
         Optional<UserModel> userModel = this.jpaUserRepository.findByLegalDocumentNumber(legalDocumentNumber);
         return this.toUserEntity(userModel);
+    }
+
+    @Override
+    public User save(User user) {
+        return null;
     }
 
     private Optional<User> toUserEntity(Optional<UserModel> userModel) {

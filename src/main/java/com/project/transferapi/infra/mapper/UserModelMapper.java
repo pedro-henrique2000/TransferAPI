@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserModelMapper {
 
-    public User toEntity(UserModel userModel) {
+    public User toEntity(final UserModel userModel) {
         return User.builder()
                 .id(userModel.getId())
                 .type(UserType.valueOf(userModel.getType()))
@@ -17,6 +17,17 @@ public class UserModelMapper {
                 .password(userModel.getPassword())
                 .balance(userModel.getBalance())
                 .fullName(userModel.getFullName())
+                .build();
+    }
+
+    public UserModel toModel(final User user) {
+        return UserModel.builder()
+                .id(user.getId())
+                .balance(user.getBalance())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .legalDocumentNumber(user.getLegalDocumentNumber())
+                .type(user.getType().toString())
                 .build();
     }
 
