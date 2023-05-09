@@ -41,6 +41,9 @@ class CreateUserTest {
     @Mock
     User user;
 
+    @Mock
+    User savedUser;
+
     @Captor
     ArgumentCaptor<User> userToSave;
 
@@ -49,10 +52,18 @@ class CreateUserTest {
         lenient().when(this.user.getLegalDocumentNumber()).thenReturn("any_document");
         lenient().when(this.user.getEmail()).thenReturn("any_mail@mail.com");
         lenient().when(this.user.getPassword()).thenReturn("any_password");
+        lenient().when(this.savedUser.getId()).thenReturn(1L);
 
         lenient().when(this.findUserByLegalDocumentNumber.find("any_document")).thenReturn(Optional.empty());
         lenient().when(this.findUserByEmail.find("any_mail@mail.com")).thenReturn(Optional.empty());
         lenient().when(this.encryptPassword.encrypt("any_password")).thenReturn("encrypted_password");
+        lenient().when(this.saveUserRepository.save(user)).thenReturn(savedUser);
+    }
+
+    @Test
+    void whenSaveNewUser_givenValidData_thenReturnSavedId() {
+        Long id = this.createUser.invoke(user);
+        assertEquals(1L, id);
     }
 
     @Test
