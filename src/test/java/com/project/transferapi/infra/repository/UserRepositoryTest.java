@@ -37,6 +37,7 @@ class UserRepositoryTest {
     void setup() {
         lenient().when(userModelMapper.toEntity(userModel)).thenReturn(user);
         lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(userModel));
+        lenient().when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.of(userModel));
     }
 
     @Test
@@ -51,6 +52,13 @@ class UserRepositoryTest {
         when(userRepository.findByEmail("invalid_mail@mail.com")).thenReturn(Optional.empty());
         Optional<User> user = repository.findByEmail("invalid_mail@mail.com");
         assertTrue(user.isEmpty());
+    }
+
+    @Test
+    void whenFindUserByEmail_givenValidLegalDocumentNumber_thenReturnOptionalUser() {
+        Optional<User> optionalUser = repository.findByLegalDocumentNumber("any_cnpj");
+        assertTrue(optionalUser.isPresent());
+        assertEquals(user, optionalUser.get());
     }
 
     @Test
