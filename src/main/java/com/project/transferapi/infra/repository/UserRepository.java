@@ -3,6 +3,7 @@ package com.project.transferapi.infra.repository;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.ports.IFindUserByEmail;
 import com.project.transferapi.infra.mapper.UserModelMapper;
+import com.project.transferapi.infra.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,8 @@ public class UserRepository implements IFindUserByEmail {
 
     @Override
     public Optional<User> find(String email) {
-        this.userRepository.findByEmail(email);
-        return Optional.empty();
+        Optional<UserModel> userModel = this.userRepository.findByEmail(email);
+        return userModel.map(this.userModelMapper::toEntity);
     }
 
 }

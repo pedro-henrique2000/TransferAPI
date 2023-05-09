@@ -35,12 +35,13 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setup() {
+        lenient().when(userModelMapper.toEntity(userModel)).thenReturn(user);
         lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(userModel));
     }
 
     @Test
     void whenFindUserByEmail_givenValidEmail_thenOptionalUser() {
-        Optional<User> optionalUser = repository.find("invalid_mail@mail.com");
+        Optional<User> optionalUser = repository.find("any_mail@mail.com");
         assertTrue(optionalUser.isPresent());
         assertEquals(user, optionalUser.get());
     }
