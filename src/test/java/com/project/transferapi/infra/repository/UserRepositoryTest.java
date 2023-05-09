@@ -44,6 +44,7 @@ class UserRepositoryTest {
         lenient().when(userModelMapper.toEntity(userModel)).thenReturn(user);
         lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(userModel));
         lenient().when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.of(userModel));
+        lenient().when(userModelMapper.toModel(user)).thenReturn(userModel);
         lenient().when(userRepository.save(any(UserModel.class))).thenReturn(savedModel);
         lenient().when(userModelMapper.toEntity(savedModel)).thenReturn(expectedUser);
     }

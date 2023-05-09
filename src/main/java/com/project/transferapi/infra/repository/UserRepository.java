@@ -19,23 +19,24 @@ public class UserRepository implements IFindUserByEmail, IFindUserByLegalDocumen
     private final UserModelMapper userModelMapper;
 
     @Override
-    public Optional<User> findByEmail(String email) {
+    public Optional<User> findByEmail(final String email) {
         Optional<UserModel> userModel = this.jpaUserRepository.findByEmail(email);
         return this.toUserEntity(userModel);
     }
 
     @Override
-    public Optional<User> findByLegalDocumentNumber(String legalDocumentNumber) {
+    public Optional<User> findByLegalDocumentNumber(final String legalDocumentNumber) {
         Optional<UserModel> userModel = this.jpaUserRepository.findByLegalDocumentNumber(legalDocumentNumber);
         return this.toUserEntity(userModel);
     }
 
     @Override
-    public User save(User user) {
-        return null;
+    public User save(final User user) {
+        UserModel savedUserModel = this.jpaUserRepository.save(this.userModelMapper.toModel(user));
+        return this.userModelMapper.toEntity(savedUserModel);
     }
 
-    private Optional<User> toUserEntity(Optional<UserModel> userModel) {
+    private Optional<User> toUserEntity(final Optional<UserModel> userModel) {
         return userModel.map(this.userModelMapper::toEntity);
     }
 }
