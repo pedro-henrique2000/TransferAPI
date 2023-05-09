@@ -40,16 +40,23 @@ class UserRepositoryTest {
     }
 
     @Test
-    void whenFindUserByEmail_givenValidEmail_thenOptionalUser() {
+    void whenFindUserByEmail_givenValidEmail_thenReturnOptionalUser() {
         Optional<User> optionalUser = repository.findByEmail("any_mail@mail.com");
         assertTrue(optionalUser.isPresent());
         assertEquals(user, optionalUser.get());
     }
 
     @Test
-    void whenFindUserByEmail_givenInvalidEmail_thenOptionalEmpty() {
+    void whenFindUserByEmail_givenInvalidEmail_thenReturnOptionalEmpty() {
         when(userRepository.findByEmail("invalid_mail@mail.com")).thenReturn(Optional.empty());
         Optional<User> user = repository.findByEmail("invalid_mail@mail.com");
+        assertTrue(user.isEmpty());
+    }
+
+    @Test
+    void whenFindUserByLegalDocumentNumber_givenInvalidLegalDocumentNumber_thenReturnOptionalEmpty() {
+        when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.empty());
+        Optional<User> user = repository.findByLegalDocumentNumber("any_cnpj");
         assertTrue(user.isEmpty());
     }
 
