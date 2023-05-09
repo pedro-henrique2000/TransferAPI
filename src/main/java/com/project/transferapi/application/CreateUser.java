@@ -29,7 +29,7 @@ public class CreateUser {
 
         user.updatePassword(this.encryptPassword.encrypt(user.getPassword()));
 
-        User savedUser = this.saveUserRepository.save(user);
+        final User savedUser = this.saveUserRepository.save(user);
 
         return savedUser.getId();
     }
