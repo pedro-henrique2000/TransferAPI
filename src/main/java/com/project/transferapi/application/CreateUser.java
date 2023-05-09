@@ -5,6 +5,7 @@ import com.project.transferapi.domain.exceptions.ConflictException;
 import com.project.transferapi.domain.ports.IEncryptPassword;
 import com.project.transferapi.domain.ports.IFindUserByEmail;
 import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
+import com.project.transferapi.domain.ports.ISaveUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ public class CreateUser {
     private final IEncryptPassword encryptPassword;
     private final IFindUserByEmail findUserByEmail;
     private final IFindUserByLegalDocumentNumber findUserByLegalDocumentNumber;
+    private final ISaveUserRepository saveUserRepository;
 
     public Long invoke(final User user) {
         this.findUserByLegalDocumentNumber.find(user.getLegalDocumentNumber()).ifPresent(u -> {
@@ -26,6 +28,8 @@ public class CreateUser {
         });
 
         user.updatePassword(this.encryptPassword.encrypt(user.getPassword()));
+
+        this.saveUserRepository.save(user);
 
         return null;
     }
