@@ -25,6 +25,7 @@ public class UserRepository implements IFindUserByEmail, IFindUserByLegalDocumen
 
     @Override
     public Optional<User> findByLegalDocumentNumber(String legalDocumentNumber) {
+        Optional<UserModel> byLegalDocumentNumber = this.jpaUserRepository.findByLegalDocumentNumber(legalDocumentNumber);
         return Optional.empty();
     }
 }
