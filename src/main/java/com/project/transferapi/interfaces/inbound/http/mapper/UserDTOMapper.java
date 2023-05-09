@@ -17,6 +17,7 @@ public class UserDTOMapper {
                 .type(UserType.valueOf(createUserDTO.getType()))
                 .email(createUserDTO.getEmail())
                 .password(createUserDTO.getPassword())
+                .legalDocumentNumber(createUserDTO.getLegalDocumentNumber())
                 .build();
     }
 
