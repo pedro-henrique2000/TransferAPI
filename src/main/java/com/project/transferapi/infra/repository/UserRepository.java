@@ -17,6 +17,7 @@ public class UserRepository implements IFindUserByEmail {
 
     @Override
     public Optional<User> find(String email) {
+        this.userRepository.findByEmail(email);
         return Optional.empty();
     }
 
