@@ -6,8 +6,12 @@ import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
 import com.project.transferapi.interfaces.inbound.http.mapper.UserDTOMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
+@RestController
+@RequestMapping("/users")
 public class UserController implements UserAPI {
 
     private final CreateUser createUser;
