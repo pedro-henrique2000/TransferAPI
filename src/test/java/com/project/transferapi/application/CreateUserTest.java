@@ -85,7 +85,11 @@ class CreateUserTest {
 
     @Test
     void whenSaveNewUser_givenValidData_thenSave() {
-        this.createUser.invoke(user);
+        this.createUser.invoke(User.builder()
+                .password("any_password")
+                .email("any_mail@mail.com")
+                .legalDocumentNumber("any_document")
+                .build());
         verify(this.saveUserRepository, atLeastOnce()).save(userToSave.capture());
         assertEquals("encrypted_password", userToSave.getValue().getPassword());
     }
