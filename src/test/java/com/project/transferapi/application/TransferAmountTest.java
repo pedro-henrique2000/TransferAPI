@@ -1,6 +1,7 @@
 package com.project.transferapi.application;
 
 import com.project.transferapi.domain.entity.User;
+import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import com.project.transferapi.domain.ports.IFindUserById;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,8 +34,17 @@ class TransferAmountTest {
 
     @BeforeEach
     void setup() {
+        lenient().when(destinationUser.isShopper()).thenReturn(false);
         lenient().when(this.findUserById.findUserById(1L)).thenReturn(Optional.of(sourceUser));
         lenient().when(this.findUserById.findUserById(2L)).thenReturn(Optional.of(destinationUser));
+    }
+
+    @Test
+    void whenTransferAmount_givenSourceUserOfTypeShopper_thenThrowBusinessException() {
+        when(destinationUser.isShopper()).thenReturn(true);
+        assertThrows(BusinessException.class, () -> {
+            this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+        });
     }
 
     @Test

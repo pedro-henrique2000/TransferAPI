@@ -24,4 +24,8 @@ public class User {
         this.password = password;
     }
 
+    public boolean isShopper() {
+        return this.type.equals(UserType.SHOPPER);
+    }
+
 }
