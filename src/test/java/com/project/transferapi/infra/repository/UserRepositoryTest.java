@@ -47,6 +47,21 @@ class UserRepositoryTest {
         lenient().when(userModelMapper.toModel(user)).thenReturn(userModel);
         lenient().when(userRepository.save(any(UserModel.class))).thenReturn(savedModel);
         lenient().when(userModelMapper.toEntity(savedModel)).thenReturn(expectedUser);
+        lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(userModel));
+    }
+
+    @Test
+    void whenFindUserById_givenValidData_thenReturnSavedUser() {
+        Optional<User> userOptional = repository.findUserById(1L);
+        assertTrue(userOptional.isPresent());
+    }
+
+    @Test
+    void whenFindUserById_givenInvalidData_thenReturnSavedUser() {
+        lenient().when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Optional<User> userOptional = repository.findUserById(1L);
+        assertTrue(userOptional.isEmpty());
     }
 
     @Test
