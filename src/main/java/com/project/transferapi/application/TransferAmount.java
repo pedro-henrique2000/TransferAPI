@@ -1,5 +1,7 @@
 package com.project.transferapi.application;
 
+import com.project.transferapi.domain.entity.User;
+import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import com.project.transferapi.domain.ports.IFindUserById;
 import lombok.RequiredArgsConstructor;
@@ -14,11 +16,15 @@ public class TransferAmount {
     private final IFindUserById findUserById;
 
     public void invoke(Long sourceId, Long destinationId, BigDecimal amount) {
-        this.findUserById.findUserById(sourceId)
+        User sourceUser = this.findUserById.findUserById(sourceId)
                 .orElseThrow(() -> new ResourceNotFoundException("not found user with id " + sourceId));
 
         this.findUserById.findUserById(destinationId)
                 .orElseThrow(() -> new ResourceNotFoundException("not found user with id " + destinationId));
+
+        if (sourceUser.isShopper()) {
+            throw new BusinessException("");
+        }
     }
 
 }

@@ -34,14 +34,14 @@ class TransferAmountTest {
 
     @BeforeEach
     void setup() {
-        lenient().when(destinationUser.isShopper()).thenReturn(false);
+        lenient().when(sourceUser.isShopper()).thenReturn(false);
         lenient().when(this.findUserById.findUserById(1L)).thenReturn(Optional.of(sourceUser));
         lenient().when(this.findUserById.findUserById(2L)).thenReturn(Optional.of(destinationUser));
     }
 
     @Test
     void whenTransferAmount_givenSourceUserOfTypeShopper_thenThrowBusinessException() {
-        when(destinationUser.isShopper()).thenReturn(true);
+        when(sourceUser.isShopper()).thenReturn(true);
         assertThrows(BusinessException.class, () -> {
             this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
         });
