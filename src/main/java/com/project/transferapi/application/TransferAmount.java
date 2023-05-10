@@ -13,7 +13,7 @@ public class TransferAmount {
     private final IFindUserById findUserById;
 
     public void invoke(Long sourceId, Long destinationId, BigDecimal amount) {
-
+        this.findUserById.findUserById(sourceId);
     }
 
 }
