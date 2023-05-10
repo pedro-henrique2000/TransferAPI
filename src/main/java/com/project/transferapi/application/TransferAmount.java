@@ -16,6 +16,9 @@ public class TransferAmount {
     public void invoke(Long sourceId, Long destinationId, BigDecimal amount) {
         this.findUserById.findUserById(sourceId)
                 .orElseThrow(() -> new ResourceNotFoundException("not found user with id " + sourceId));
+
+        this.findUserById.findUserById(destinationId)
+                .orElseThrow(() -> new ResourceNotFoundException("not found user with id " + destinationId));
     }
 
 }
