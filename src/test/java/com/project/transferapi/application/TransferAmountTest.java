@@ -5,6 +5,8 @@ import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
 import com.project.transferapi.domain.ports.IFindUserById;
+import com.project.transferapi.domain.ports.ISaveUserRepository;
+import com.project.transferapi.domain.ports.ITransferNotification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +33,12 @@ class TransferAmountTest {
     IExternalTransactionAuthorizer externalTransactionAuthorizer;
 
     @Mock
+    ISaveUserRepository saveUserRepository;
+
+    @Mock
+    ITransferNotification transferNotification;
+
+    @Mock
     User sourceUser;
 
     @Mock
@@ -43,6 +51,21 @@ class TransferAmountTest {
         lenient().when(this.findUserById.findUserById(1L)).thenReturn(Optional.of(sourceUser));
         lenient().when(this.findUserById.findUserById(2L)).thenReturn(Optional.of(destinationUser));
         lenient().when(this.externalTransactionAuthorizer.invoke()).thenReturn(true);
+    }
+
+    @Test
+    void whenTransferAmount_givenGivenValidData_thenCallTransferNotification() {
+        this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+
+        verify(transferNotification, times(1)).invoke(sourceUser, destinationUser, BigDecimal.ZERO);
+    }
+
+    @Test
+    void whenTransferAmount_givenGivenValidData_thenCallRepositoryToSaveBothUsers() {
+        this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+
+        verify(saveUserRepository, times(1)).save(destinationUser);
+        verify(saveUserRepository, times(1)).save(sourceUser);
     }
 
     @Test
