@@ -31,7 +31,7 @@ import static com.project.transferapi.interfaces.inbound.http.controller.UserFix
 @SpringBootTest
 @AutoConfigureMockMvc
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-public class UserControllerIT {
+class UserControllerIT {
 
     @Autowired
     MockMvc mockMvc;
