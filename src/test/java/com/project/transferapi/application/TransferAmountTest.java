@@ -45,6 +45,13 @@ class TransferAmountTest {
     }
 
     @Test
+    void whenTransferAmount_givenNegatedTransaction_thenThrowBusinessException() {
+        assertThrows(BusinessException.class, () -> {
+            this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+        });
+    }
+
+    @Test
     void whenTransferAmount_givenValidData_thenCallExternalAuthorizerService() {
         this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
 
