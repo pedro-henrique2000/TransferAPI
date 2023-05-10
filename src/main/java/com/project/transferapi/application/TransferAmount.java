@@ -3,6 +3,7 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
+import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
 import com.project.transferapi.domain.ports.IFindUserById;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 public class TransferAmount {
 
     private final IFindUserById findUserById;
+    private final IExternalTransactionAuthorizer externalTransactionAuthorizer;
 
     public void invoke(Long sourceId, Long destinationId, BigDecimal amount) {
         User sourceUser = this.findUserById.findUserById(sourceId)
@@ -25,6 +27,8 @@ public class TransferAmount {
         if (sourceUser.isShopper()) {
             throw new BusinessException("");
         }
+
+        this.externalTransactionAuthorizer.invoke();
     }
 
 }

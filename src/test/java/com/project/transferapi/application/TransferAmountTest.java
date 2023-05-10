@@ -38,9 +38,10 @@ class TransferAmountTest {
 
     @BeforeEach
     void setup() {
-        lenient().when(sourceUser.isShopper()).thenReturn(false);
+        lenient().when(this.sourceUser.isShopper()).thenReturn(false);
         lenient().when(this.findUserById.findUserById(1L)).thenReturn(Optional.of(sourceUser));
         lenient().when(this.findUserById.findUserById(2L)).thenReturn(Optional.of(destinationUser));
+        lenient().when(this.externalTransactionAuthorizer.invoke()).thenReturn(true);
     }
 
     @Test
