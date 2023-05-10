@@ -28,4 +28,17 @@ public class User {
         return this.type.equals(UserType.SHOPPER);
     }
 
+    public boolean decreaseBalance(BigDecimal amount) {
+        boolean hasDecreased = false;
+        if (amount.compareTo(this.balance) < 0) {
+            this.balance = this.balance.subtract(amount);
+            hasDecreased = true;
+        }
+        return hasDecreased;
+    }
+
+    public void increaseBalance(BigDecimal amount) {
+        this.balance = this.balance.add(amount);
+    }
+
 }

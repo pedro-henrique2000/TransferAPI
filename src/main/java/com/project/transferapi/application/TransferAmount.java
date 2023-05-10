@@ -21,12 +21,19 @@ public class TransferAmount {
         User sourceUser = this.findUserById.findUserById(sourceId)
                 .orElseThrow(() -> new ResourceNotFoundException("not found user with id " + sourceId));
 
-        this.findUserById.findUserById(destinationId)
+        User destinationUser = this.findUserById.findUserById(destinationId)
                 .orElseThrow(() -> new ResourceNotFoundException("not found user with id " + destinationId));
 
         if (sourceUser.isShopper()) {
             throw new BusinessException("");
         }
+
+        boolean wasDecreased = sourceUser.decreaseBalance(amount);
+        if (!wasDecreased) {
+            throw new BusinessException("");
+        }
+
+        destinationUser.increaseBalance(amount);
 
         boolean wasTransactionApproved = this.externalTransactionAuthorizer.invoke();
         if (!wasTransactionApproved) {

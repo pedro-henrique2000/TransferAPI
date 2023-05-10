@@ -39,9 +39,25 @@ class TransferAmountTest {
     @BeforeEach
     void setup() {
         lenient().when(this.sourceUser.isShopper()).thenReturn(false);
+        lenient().when(this.sourceUser.decreaseBalance(any(BigDecimal.class))).thenReturn(true);
         lenient().when(this.findUserById.findUserById(1L)).thenReturn(Optional.of(sourceUser));
         lenient().when(this.findUserById.findUserById(2L)).thenReturn(Optional.of(destinationUser));
         lenient().when(this.externalTransactionAuthorizer.invoke()).thenReturn(true);
+    }
+
+    @Test
+    void whenTransferAmount_givenGivenInvalidAmount_thenThrowBusinessException() {
+        when(this.sourceUser.decreaseBalance(any(BigDecimal.class))).thenReturn(false);
+        assertThrows(BusinessException.class, () -> {
+            this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+        });
+    }
+
+    @Test
+    void whenTransferAmount_givenGivenValidAmount_thenCallSourceIncreaseQuantity() {
+        this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+
+        verify(this.destinationUser, times(1)).increaseBalance(BigDecimal.ZERO);
     }
 
     @Test
