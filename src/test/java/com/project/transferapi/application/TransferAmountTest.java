@@ -3,6 +3,7 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
+import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
 import com.project.transferapi.domain.ports.IFindUserById;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ class TransferAmountTest {
     IFindUserById findUserById;
 
     @Mock
+    IExternalTransactionAuthorizer externalTransactionAuthorizer;
+
+    @Mock
     User sourceUser;
 
     @Mock
@@ -37,6 +41,13 @@ class TransferAmountTest {
         lenient().when(sourceUser.isShopper()).thenReturn(false);
         lenient().when(this.findUserById.findUserById(1L)).thenReturn(Optional.of(sourceUser));
         lenient().when(this.findUserById.findUserById(2L)).thenReturn(Optional.of(destinationUser));
+    }
+
+    @Test
+    void whenTransferAmount_givenValidData_thenCallExternalAuthorizerService() {
+        this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
+
+        verify(externalTransactionAuthorizer, times(1)).invoke();
     }
 
     @Test
