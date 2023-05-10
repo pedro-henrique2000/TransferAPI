@@ -30,7 +30,7 @@ public class User {
 
     public boolean decreaseBalance(BigDecimal amount) {
         boolean hasDecreased = false;
-        if (amount.compareTo(this.balance) < 0) {
+        if (amount.compareTo(this.balance) <= 0) {
             this.balance = this.balance.subtract(amount);
             hasDecreased = true;
         }
