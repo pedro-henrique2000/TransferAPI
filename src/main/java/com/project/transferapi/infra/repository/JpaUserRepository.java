@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-interface JpaUserRepository extends JpaRepository<UserModel, Long> {
+public interface JpaUserRepository extends JpaRepository<UserModel, Long> {
     @Query("select u from UserModel u where u.email = ?1")
     Optional<UserModel> findByEmail(String email);
     @Query("select u from UserModel u where u.legalDocumentNumber = ?1")
