@@ -28,7 +28,10 @@ public class TransferAmount {
             throw new BusinessException("");
         }
 
-        this.externalTransactionAuthorizer.invoke();
+        boolean wasTransactionApproved = this.externalTransactionAuthorizer.invoke();
+        if (!wasTransactionApproved) {
+            throw new BusinessException("");
+        }
     }
 
 }
