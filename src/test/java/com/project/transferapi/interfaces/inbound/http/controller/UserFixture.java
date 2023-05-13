@@ -1,6 +1,7 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
-import com.project.transferapi.infra.model.UserModel;
+import com.project.transferapi.domain.entity.User;
+import com.project.transferapi.domain.entity.UserType;
 import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
 
 import java.math.BigDecimal;
@@ -29,10 +30,10 @@ public class UserFixture {
         return createUserDTO;
     }
 
-    public static UserModel getUserModelWithDuplicatedEmail() {
-        return UserModel.builder()
+    public static User getUserModelWithDuplicatedEmail() {
+        return User.builder()
                 .password("123")
-                .type("COMMON")
+                .type(UserType.COMMON)
                 .email("mail@mail.com")
                 .legalDocumentNumber("cnpj2")
                 .balance(BigDecimal.ZERO)
@@ -40,10 +41,10 @@ public class UserFixture {
                 .build();
     }
 
-    public static UserModel getUserModelWithDuplicatedDocument() {
-        return UserModel.builder()
+    public static User getUserModelWithDuplicatedDocument() {
+        return User.builder()
                 .password("123")
-                .type("COMMON")
+                .type(UserType.COMMON)
                 .email("mail@mail.com")
                 .legalDocumentNumber("cnpj")
                 .balance(BigDecimal.ZERO)

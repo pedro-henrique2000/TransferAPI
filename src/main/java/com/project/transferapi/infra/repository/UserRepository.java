@@ -5,8 +5,6 @@ import com.project.transferapi.domain.ports.IFindUserByEmail;
 import com.project.transferapi.domain.ports.IFindUserById;
 import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
 import com.project.transferapi.domain.ports.ISaveUserRepository;
-import com.project.transferapi.infra.mapper.UserModelMapper;
-import com.project.transferapi.infra.model.UserModel;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -17,33 +15,24 @@ import java.util.Optional;
 public class UserRepository implements IFindUserByEmail, IFindUserByLegalDocumentNumber, ISaveUserRepository, IFindUserById {
 
     private final JpaUserRepository jpaUserRepository;
-    private final UserModelMapper userModelMapper;
 
     @Override
     public Optional<User> findByEmail(final String email) {
-        Optional<UserModel> userModel = this.jpaUserRepository.findByEmail(email);
-        return this.toUserEntity(userModel);
+        return this.jpaUserRepository.findByEmail(email);
     }
 
     @Override
     public Optional<User> findByLegalDocumentNumber(final String legalDocumentNumber) {
-        Optional<UserModel> userModel = this.jpaUserRepository.findByLegalDocumentNumber(legalDocumentNumber);
-        return this.toUserEntity(userModel);
+        return this.jpaUserRepository.findByLegalDocumentNumber(legalDocumentNumber);
     }
 
     @Override
     public Optional<User> findUserById(Long id) {
-        Optional<UserModel> userModel = this.jpaUserRepository.findById(id);
-        return this.toUserEntity(userModel);
+        return this.jpaUserRepository.findById(id);
     }
 
     @Override
     public User save(final User user) {
-        UserModel savedUserModel = this.jpaUserRepository.save(this.userModelMapper.toModel(user));
-        return this.userModelMapper.toEntity(savedUserModel);
-    }
-
-    private Optional<User> toUserEntity(final Optional<UserModel> userModel) {
-        return userModel.map(this.userModelMapper::toEntity);
+        return this.jpaUserRepository.save(user);
     }
 }

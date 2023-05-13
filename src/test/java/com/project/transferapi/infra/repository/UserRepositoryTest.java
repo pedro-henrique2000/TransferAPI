@@ -1,8 +1,6 @@
 package com.project.transferapi.infra.repository;
 
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.infra.mapper.UserModelMapper;
-import com.project.transferapi.infra.model.UserModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,29 +23,17 @@ class UserRepositoryTest {
     JpaUserRepository userRepository;
 
     @Mock
-    UserModelMapper userModelMapper;
-
-    @Mock
     User user;
-
-    @Mock
-    UserModel userModel;
-
-    @Mock
-    UserModel savedModel;
 
     @Mock
     User expectedUser;
 
     @BeforeEach
     void setup() {
-        lenient().when(userModelMapper.toEntity(userModel)).thenReturn(user);
-        lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(userModel));
-        lenient().when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.of(userModel));
-        lenient().when(userModelMapper.toModel(user)).thenReturn(userModel);
-        lenient().when(userRepository.save(any(UserModel.class))).thenReturn(savedModel);
-        lenient().when(userModelMapper.toEntity(savedModel)).thenReturn(expectedUser);
-        lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(userModel));
+        lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(expectedUser));
+        lenient().when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.of(expectedUser));
+        lenient().when(userRepository.save(any(User.class))).thenReturn(expectedUser);
+        lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(expectedUser));
     }
 
     @Test
@@ -74,7 +60,7 @@ class UserRepositoryTest {
     void whenFindUserByEmail_givenValidEmail_thenReturnOptionalUser() {
         Optional<User> optionalUser = repository.findByEmail("any_mail@mail.com");
         assertTrue(optionalUser.isPresent());
-        assertEquals(user, optionalUser.get());
+        assertEquals(expectedUser, optionalUser.get());
     }
 
     @Test
@@ -88,7 +74,7 @@ class UserRepositoryTest {
     void whenFindUserByEmail_givenValidLegalDocumentNumber_thenReturnOptionalUser() {
         Optional<User> optionalUser = repository.findByLegalDocumentNumber("any_cnpj");
         assertTrue(optionalUser.isPresent());
-        assertEquals(user, optionalUser.get());
+        assertEquals(expectedUser, optionalUser.get());
     }
 
     @Test

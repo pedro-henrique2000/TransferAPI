@@ -1,7 +1,7 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
 
-import com.project.transferapi.infra.model.UserModel;
+import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.infra.repository.JpaUserRepository;
 import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
 import org.junit.jupiter.api.*;
@@ -77,7 +77,7 @@ class UserControllerIT {
                 )
                 .andExpect(status().isCreated());
 
-        List<UserModel> allUsers = this.jpaUserRepository.findAll();
+        List<User> allUsers = this.jpaUserRepository.findAll();
         assertFalse(allUsers.isEmpty());
         assertEquals(request.getEmail(), allUsers.get(0).getEmail());
     }
@@ -96,7 +96,7 @@ class UserControllerIT {
 
     @Test
     void shouldReturn409OnDuplicatedEmail() throws Exception {
-        UserModel userModel = getUserModelWithDuplicatedEmail();
+        User userModel = getUserModelWithDuplicatedEmail();
 
         this.jpaUserRepository.save(userModel);
 
@@ -112,7 +112,7 @@ class UserControllerIT {
 
     @Test
     void shouldReturn409OnDuplicatedDocument() throws Exception {
-        UserModel userModel = getUserModelWithDuplicatedDocument();
+        User userModel = getUserModelWithDuplicatedDocument();
 
         this.jpaUserRepository.save(userModel);
 
