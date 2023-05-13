@@ -1,11 +1,11 @@
 package com.project.transferapi.application;
 
+import static com.project.transferapi.domain.entity.TransactionStatus.*;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
 import com.project.transferapi.domain.ports.IFindUserById;
-import com.project.transferapi.domain.ports.ISaveUserRepository;
 import com.project.transferapi.domain.ports.ITransferNotification;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class TransferAmount {
 
     private final IFindUserById findUserById;
     private final IExternalTransactionAuthorizer externalTransactionAuthorizer;
-    private final ISaveUserRepository saveUserRepository;
+    private final CreateTransaction createTransaction;
     private final ITransferNotification transferNotification;
 
     public void invoke(Long sourceId, Long destinationId, BigDecimal amount) {
@@ -32,20 +32,21 @@ public class TransferAmount {
             throw new BusinessException("");
         }
 
+        boolean wasTransactionApproved = this.externalTransactionAuthorizer.invoke();
+        if (!wasTransactionApproved) {
+            this.createTransaction.invoke(destinationUser, sourceUser, amount, NOT_AUTHORIZED);
+            throw new BusinessException("");
+        }
+
         boolean wasDecreased = sourceUser.decreaseBalance(amount);
         if (!wasDecreased) {
+            this.createTransaction.invoke(destinationUser, sourceUser, amount, INSUFFICIENT_FUNDS);
             throw new BusinessException("");
         }
 
         destinationUser.increaseBalance(amount);
 
-        boolean wasTransactionApproved = this.externalTransactionAuthorizer.invoke();
-        if (!wasTransactionApproved) {
-            throw new BusinessException("");
-        }
-
-        this.saveUserRepository.save(destinationUser);
-        this.saveUserRepository.save(sourceUser);
+        this.createTransaction.invoke(destinationUser, sourceUser, amount, COMPLETED);
 
         this.transferNotification.invoke(sourceUser, destinationUser, amount);
     }
