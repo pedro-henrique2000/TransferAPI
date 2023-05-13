@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Builder
@@ -17,6 +18,8 @@ public class User {
     private String password;
     private BigDecimal balance;
     private UserType type;
+    private List<Transaction> sentTransactions;
+    private List<Transaction> receivedTransactions;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
