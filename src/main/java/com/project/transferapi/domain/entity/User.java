@@ -10,6 +10,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users", indexes = {
@@ -37,6 +39,12 @@ public class User {
 
     @Column(nullable = false)
     private String password;
+
+    @OneToMany(mappedBy = "destination", fetch = FetchType.LAZY)
+    private List<Transaction> receivedTransactions;
+
+    @OneToMany(mappedBy = "source", fetch = FetchType.LAZY)
+    private List<Transaction> sentTransactions;
 
     @Column(nullable = false)
     private BigDecimal balance;
@@ -68,6 +76,20 @@ public class User {
             hasDecreased = true;
         }
         return hasDecreased;
+    }
+
+    public void addReceivedTransaction(Transaction transaction) {
+        if (this.receivedTransactions == null) {
+            this.receivedTransactions =  new ArrayList<>();
+        }
+        this.receivedTransactions.add(transaction);
+    }
+
+    public void addSentTransaction(Transaction transaction) {
+        if (this.sentTransactions == null) {
+            this.sentTransactions =  new ArrayList<>();
+        }
+        this.sentTransactions.add(transaction);
     }
 
     public void increaseBalance(BigDecimal amount) {
