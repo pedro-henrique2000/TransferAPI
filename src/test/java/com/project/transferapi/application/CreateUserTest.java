@@ -2,10 +2,7 @@ package com.project.transferapi.application;
 
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.ConflictException;
-import com.project.transferapi.domain.ports.IEncryptPassword;
-import com.project.transferapi.domain.ports.IFindUserByEmail;
-import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
-import com.project.transferapi.domain.ports.ISaveUserRepository;
+import com.project.transferapi.domain.ports.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,10 +24,10 @@ class CreateUserTest {
     CreateUser createUser;
 
     @Mock
-    IFindUserByLegalDocumentNumber findUserByLegalDocumentNumber;
+    IUserExistsByLegalDocumentNumberRepository userExistsByLegalDocumentNumberRepository;
 
     @Mock
-    IFindUserByEmail findUserByEmail;
+    IUserExistsByEmailRepository userExistsByEmailRepository;
 
     @Mock
     IEncryptPassword encryptPassword;
@@ -54,8 +51,8 @@ class CreateUserTest {
         lenient().when(this.user.getPassword()).thenReturn("any_password");
         lenient().when(this.savedUser.getId()).thenReturn(1L);
 
-        lenient().when(this.findUserByLegalDocumentNumber.findByLegalDocumentNumber("any_document")).thenReturn(Optional.empty());
-        lenient().when(this.findUserByEmail.findByEmail("any_mail@mail.com")).thenReturn(Optional.empty());
+        lenient().when(this.userExistsByLegalDocumentNumberRepository.existsByDocumentNumber("any_document")).thenReturn(false);
+        lenient().when(this.userExistsByEmailRepository.existsByEmail("any_mail@mail.com")).thenReturn(false);
         lenient().when(this.encryptPassword.encrypt("any_password")).thenReturn("encrypted_password");
         lenient().when(this.saveUserRepository.save(any(User.class))).thenReturn(savedUser);
     }
@@ -68,7 +65,7 @@ class CreateUserTest {
 
     @Test
     void whenSaveNewUser_givenAlreadyRegisteredLegalDocumentNumber_thenThrowConflictException() {
-        when(this.findUserByLegalDocumentNumber.findByLegalDocumentNumber("any_document")).thenReturn(Optional.of(mock(User.class)));
+        when(this.userExistsByLegalDocumentNumberRepository.existsByDocumentNumber("any_document")).thenReturn(true);
         assertThrows(ConflictException.class, () -> {
             this.createUser.invoke(user);
         });
@@ -76,7 +73,7 @@ class CreateUserTest {
 
     @Test
     void whenSaveNewUser_givenAlreadyRegisteredEmail_thenThrowConflictException() {
-        when(this.findUserByEmail.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(mock(User.class)));
+        when(this.userExistsByEmailRepository.existsByEmail("any_mail@mail.com")).thenReturn(true);
         assertThrows(ConflictException.class, () -> {
             this.createUser.invoke(user);
         });

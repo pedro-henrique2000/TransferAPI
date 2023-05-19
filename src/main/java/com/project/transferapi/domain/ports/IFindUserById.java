@@ -4,6 +4,6 @@ import com.project.transferapi.domain.entity.User;
 
 import java.util.Optional;
 
-public interface IFindUserByLegalDocumentNumber {
-    Optional<User> findByLegalDocumentNumber(String legalDocumentNumber);
+public interface IFindUserById {
+    Optional<User> findUserById(Long id);
 }

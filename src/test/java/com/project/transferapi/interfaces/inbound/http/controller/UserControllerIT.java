@@ -1,7 +1,7 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
 
-import com.project.transferapi.infra.model.UserModel;
+import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.infra.repository.JpaUserRepository;
 import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
 import org.junit.jupiter.api.*;
@@ -21,10 +21,11 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.project.transferapi.interfaces.inbound.http.controller.UserFixture.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.project.transferapi.interfaces.inbound.http.controller.UserFixture.*;
 
 @Testcontainers
 @ActiveProfiles("test")
@@ -77,7 +78,7 @@ class UserControllerIT {
                 )
                 .andExpect(status().isCreated());
 
-        List<UserModel> allUsers = this.jpaUserRepository.findAll();
+        List<User> allUsers = this.jpaUserRepository.findAll();
         assertFalse(allUsers.isEmpty());
         assertEquals(request.getEmail(), allUsers.get(0).getEmail());
     }
@@ -96,7 +97,7 @@ class UserControllerIT {
 
     @Test
     void shouldReturn409OnDuplicatedEmail() throws Exception {
-        UserModel userModel = getUserModelWithDuplicatedEmail();
+        User userModel = getUserModelWithDuplicatedEmail();
 
         this.jpaUserRepository.save(userModel);
 
@@ -112,7 +113,7 @@ class UserControllerIT {
 
     @Test
     void shouldReturn409OnDuplicatedDocument() throws Exception {
-        UserModel userModel = getUserModelWithDuplicatedDocument();
+        User userModel = getUserModelWithDuplicatedDocument();
 
         this.jpaUserRepository.save(userModel);
 

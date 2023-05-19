@@ -29,8 +29,10 @@ public class CreateUserDTO {
     @NotBlank
     private String type;
 
-    @AssertTrue(message = "password and passoword confirmation are not equal")
-    public boolean isValidPasswordCombination() {
+    private boolean validPasswordConfirmation;
+
+    @AssertTrue(message = "password and password confirmation are not equal")
+    public boolean isValidPasswordConfirmation() {
         if (isNull(this.password) || isNull(this.passwordConfirmation)) {
             return false;
         }

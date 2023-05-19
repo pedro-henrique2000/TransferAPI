@@ -2,10 +2,7 @@ package com.project.transferapi.application;
 
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.ConflictException;
-import com.project.transferapi.domain.ports.IEncryptPassword;
-import com.project.transferapi.domain.ports.IFindUserByEmail;
-import com.project.transferapi.domain.ports.IFindUserByLegalDocumentNumber;
-import com.project.transferapi.domain.ports.ISaveUserRepository;
+import com.project.transferapi.domain.ports.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,18 +11,18 @@ import org.springframework.stereotype.Service;
 public class CreateUser {
 
     private final IEncryptPassword encryptPassword;
-    private final IFindUserByEmail findUserByEmail;
-    private final IFindUserByLegalDocumentNumber findUserByLegalDocumentNumber;
     private final ISaveUserRepository saveUserRepository;
+    private final IUserExistsByEmailRepository userExistsByEmailRepository;
+    private final IUserExistsByLegalDocumentNumberRepository userExistsByLegalDocumentNumberRepository;
 
     public Long invoke(final User user) {
-        this.findUserByLegalDocumentNumber.findByLegalDocumentNumber(user.getLegalDocumentNumber()).ifPresent(u -> {
-            throw new ConflictException("given legal document number already registered");
-        });
+        if (this.userExistsByLegalDocumentNumberRepository.existsByDocumentNumber(user.getLegalDocumentNumber())) {
+            throw new ConflictException("given document already registered");
+        }
 
-        this.findUserByEmail.findByEmail(user.getEmail()).ifPresent(u -> {
+        if (this.userExistsByEmailRepository.existsByEmail(user.getEmail())) {
             throw new ConflictException("given email already registered");
-        });
+        }
 
         user.updatePassword(this.encryptPassword.encrypt(user.getPassword()));
 

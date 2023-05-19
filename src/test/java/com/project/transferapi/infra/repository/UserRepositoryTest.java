@@ -1,8 +1,6 @@
 package com.project.transferapi.infra.repository;
 
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.infra.mapper.UserModelMapper;
-import com.project.transferapi.infra.model.UserModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,28 +23,32 @@ class UserRepositoryTest {
     JpaUserRepository userRepository;
 
     @Mock
-    UserModelMapper userModelMapper;
-
-    @Mock
     User user;
-
-    @Mock
-    UserModel userModel;
-
-    @Mock
-    UserModel savedModel;
 
     @Mock
     User expectedUser;
 
     @BeforeEach
     void setup() {
-        lenient().when(userModelMapper.toEntity(userModel)).thenReturn(user);
-        lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(userModel));
-        lenient().when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.of(userModel));
-        lenient().when(userModelMapper.toModel(user)).thenReturn(userModel);
-        lenient().when(userRepository.save(any(UserModel.class))).thenReturn(savedModel);
-        lenient().when(userModelMapper.toEntity(savedModel)).thenReturn(expectedUser);
+        lenient().when(userRepository.existsByEmail("email")).thenReturn(true);
+        lenient().when(userRepository.existsByLegalDocumentNumberAllIgnoreCase("number")).thenReturn(true);
+        lenient().when(userRepository.existsByLegalDocumentNumberAllIgnoreCase("email")).thenReturn(true);
+        lenient().when(userRepository.save(any(User.class))).thenReturn(expectedUser);
+        lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(expectedUser));
+    }
+
+    @Test
+    void whenFindUserById_givenValidData_thenReturnSavedUser() {
+        Optional<User> userOptional = repository.findUserById(1L);
+        assertTrue(userOptional.isPresent());
+    }
+
+    @Test
+    void whenFindUserById_givenInvalidData_thenReturnSavedUser() {
+        lenient().when(userRepository.findById(1L)).thenReturn(Optional.empty());
+
+        Optional<User> userOptional = repository.findUserById(1L);
+        assertTrue(userOptional.isEmpty());
     }
 
     @Test
@@ -56,31 +58,16 @@ class UserRepositoryTest {
     }
 
     @Test
-    void whenFindUserByEmail_givenValidEmail_thenReturnOptionalUser() {
-        Optional<User> optionalUser = repository.findByEmail("any_mail@mail.com");
-        assertTrue(optionalUser.isPresent());
-        assertEquals(user, optionalUser.get());
+    void whenVerifyIfUserExistsByEmail_givenEmail_thenReturnBoolean() {
+        boolean res = this.repository.existsByEmail("email");
+        assertTrue(res);
     }
 
     @Test
-    void whenFindUserByEmail_givenInvalidEmail_thenReturnOptionalEmpty() {
-        when(userRepository.findByEmail("invalid_mail@mail.com")).thenReturn(Optional.empty());
-        Optional<User> user = repository.findByEmail("invalid_mail@mail.com");
-        assertTrue(user.isEmpty());
+    void whenVerifyIfUserExistsByDocument_givenDocument_thenReturnBoolean() {
+        boolean res = this.repository.existsByDocumentNumber("number");
+        assertTrue(res);
     }
 
-    @Test
-    void whenFindUserByEmail_givenValidLegalDocumentNumber_thenReturnOptionalUser() {
-        Optional<User> optionalUser = repository.findByLegalDocumentNumber("any_cnpj");
-        assertTrue(optionalUser.isPresent());
-        assertEquals(user, optionalUser.get());
-    }
-
-    @Test
-    void whenFindUserByLegalDocumentNumber_givenInvalidLegalDocumentNumber_thenReturnOptionalEmpty() {
-        when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.empty());
-        Optional<User> user = repository.findByLegalDocumentNumber("any_cnpj");
-        assertTrue(user.isEmpty());
-    }
 
 }
