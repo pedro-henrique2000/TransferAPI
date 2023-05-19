@@ -1,5 +1,6 @@
 package com.project.transferapi.interfaces.inbound.http.handler;
 
+import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ConflictException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,20 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 .build();
 
         return ResponseEntity.status(409).body(exceptionDetails);
+    }
+
+    @ExceptionHandler(BusinessException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public ResponseEntity<ExceptionDetails> handleConflictException(final BusinessException exception) {
+        final ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
+                .details(exception.getMessage())
+                .title("Business Exception")
+                .timestamp(LocalDateTime.now())
+                .developerMessage(exception.getClass().getName())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY.value()).body(exceptionDetails);
     }
 
     @Override

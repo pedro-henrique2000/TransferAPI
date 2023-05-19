@@ -17,6 +17,7 @@ public class TransferNotificationConsumer {
 
     @RabbitListener(queues = "${spring.rabbitmq.notifyTransactionQueue}", concurrency = "1")
     public void consume(@Payload TransferNotificationDTO transferNotificationDTO) {
+        log.info("TransferNotificationConsumer::consume - Received Transaction with source user {} ", transferNotificationDTO.getSourceName());
         this.transferNotificator.invoke(transferNotificationDTO.getSourceName(),
                 transferNotificationDTO.getDestinationName(),
                 transferNotificationDTO.getAmount(),

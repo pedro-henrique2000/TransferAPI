@@ -21,6 +21,7 @@ class TransferNotificationPublisher implements IPublishTransferNotification {
 
     @Override
     public void notify(Transaction transaction) {
+        log.info("TransferNotificationPublisher::notify - Publishing message for transaction with id {} and Source Name {}", transaction.getId(), transaction.getSource().getFullName());
         this.rabbitTemplate.convertAndSend(
                 this.exchange,
                 "",
