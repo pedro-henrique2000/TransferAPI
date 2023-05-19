@@ -9,7 +9,7 @@ class CreateUserDTOTest {
     @Test
     void shouldReturnFalseWhenPasswordIsNull() {
         CreateUserDTO createUserDTO = new CreateUserDTO();
-        boolean validPasswordCombination = createUserDTO.isValidPasswordCombination();
+        boolean validPasswordCombination = createUserDTO.validatePasswordCombination();
         assertFalse(validPasswordCombination);
     }
 

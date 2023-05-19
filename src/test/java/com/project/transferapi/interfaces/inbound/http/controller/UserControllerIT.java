@@ -21,10 +21,11 @@ import org.testcontainers.utility.DockerImageName;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static com.project.transferapi.interfaces.inbound.http.controller.UserFixture.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static com.project.transferapi.interfaces.inbound.http.controller.UserFixture.*;
 
 @Testcontainers
 @ActiveProfiles("test")
