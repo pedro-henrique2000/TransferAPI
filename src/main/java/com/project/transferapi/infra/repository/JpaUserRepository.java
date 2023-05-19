@@ -11,5 +11,8 @@ public interface JpaUserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
     @Query("select u from User u where u.legalDocumentNumber = ?1")
     Optional<User> findByLegalDocumentNumber(String legalDocumentNumber);
-
+    @Query("select (count(u) > 0) from User u where upper(u.legalDocumentNumber) = upper(?1)")
+    boolean existsByLegalDocumentNumberAllIgnoreCase(String legalDocumentNumber);
+    @Query("select (count(u) > 0) from User u where u.email = ?1")
+    boolean existsByEmail(String email);
 }

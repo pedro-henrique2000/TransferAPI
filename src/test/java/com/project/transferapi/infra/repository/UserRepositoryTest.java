@@ -30,8 +30,9 @@ class UserRepositoryTest {
 
     @BeforeEach
     void setup() {
-        lenient().when(userRepository.findByEmail("any_mail@mail.com")).thenReturn(Optional.of(expectedUser));
-        lenient().when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.of(expectedUser));
+        lenient().when(userRepository.existsByEmail("email")).thenReturn(true);
+        lenient().when(userRepository.existsByLegalDocumentNumberAllIgnoreCase("number")).thenReturn(true);
+        lenient().when(userRepository.existsByLegalDocumentNumberAllIgnoreCase("email")).thenReturn(true);
         lenient().when(userRepository.save(any(User.class))).thenReturn(expectedUser);
         lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(expectedUser));
     }
@@ -57,31 +58,16 @@ class UserRepositoryTest {
     }
 
     @Test
-    void whenFindUserByEmail_givenValidEmail_thenReturnOptionalUser() {
-        Optional<User> optionalUser = repository.findByEmail("any_mail@mail.com");
-        assertTrue(optionalUser.isPresent());
-        assertEquals(expectedUser, optionalUser.get());
+    void whenVerifyIfUserExistsByEmail_givenEmail_thenReturnBoolean() {
+        boolean res = this.repository.existsByEmail("email");
+        assertTrue(res);
     }
 
     @Test
-    void whenFindUserByEmail_givenInvalidEmail_thenReturnOptionalEmpty() {
-        when(userRepository.findByEmail("invalid_mail@mail.com")).thenReturn(Optional.empty());
-        Optional<User> user = repository.findByEmail("invalid_mail@mail.com");
-        assertTrue(user.isEmpty());
+    void whenVerifyIfUserExistsByDocument_givenDocument_thenReturnBoolean() {
+        boolean res = this.repository.existsByDocumentNumber("number");
+        assertTrue(res);
     }
 
-    @Test
-    void whenFindUserByEmail_givenValidLegalDocumentNumber_thenReturnOptionalUser() {
-        Optional<User> optionalUser = repository.findByLegalDocumentNumber("any_cnpj");
-        assertTrue(optionalUser.isPresent());
-        assertEquals(expectedUser, optionalUser.get());
-    }
-
-    @Test
-    void whenFindUserByLegalDocumentNumber_givenInvalidLegalDocumentNumber_thenReturnOptionalEmpty() {
-        when(userRepository.findByLegalDocumentNumber("any_cnpj")).thenReturn(Optional.empty());
-        Optional<User> user = repository.findByLegalDocumentNumber("any_cnpj");
-        assertTrue(user.isEmpty());
-    }
 
 }
