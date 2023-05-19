@@ -12,8 +12,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
@@ -24,16 +22,16 @@ class CreateUserTest {
     CreateUser createUser;
 
     @Mock
-    IUserExistsByLegalDocumentNumberRepository userExistsByLegalDocumentNumberRepository;
+    UserExistsByLegalDocumentNumberRepositoryPort userExistsByLegalDocumentNumberRepository;
 
     @Mock
-    IUserExistsByEmailRepository userExistsByEmailRepository;
+    UserExistsByEmailRepositoryPort userExistsByEmailRepository;
 
     @Mock
-    IEncryptPassword encryptPassword;
+    EncryptPasswordPort encryptPassword;
 
     @Mock
-    ISaveUserRepository saveUserRepository;
+    SaveUserRepositoryPort saveUserRepository;
 
     @Mock
     User user;

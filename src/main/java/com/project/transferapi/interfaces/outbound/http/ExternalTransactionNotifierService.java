@@ -1,6 +1,6 @@
 package com.project.transferapi.interfaces.outbound.http;
 
-import com.project.transferapi.domain.ports.IExternalTransactionNotifier;
+import com.project.transferapi.domain.ports.ExternalTransactionNotifierPort;
 import com.project.transferapi.interfaces.outbound.dto.ExternalNotificationResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class ExternalTransactionNotifierService implements IExternalTransactionNotifier {
+public class ExternalTransactionNotifierService implements ExternalTransactionNotifierPort {
 
     private final ExternalTransactionNotifierFeignClient externalTransactionNotifierFeignClient;
 

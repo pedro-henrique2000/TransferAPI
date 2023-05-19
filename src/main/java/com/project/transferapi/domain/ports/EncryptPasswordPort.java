@@ -1,5 +1,5 @@
 package com.project.transferapi.domain.ports;
 
-public interface IEncryptPassword {
+public interface EncryptPasswordPort {
     String encrypt(String password);
 }

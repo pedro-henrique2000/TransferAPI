@@ -5,9 +5,8 @@ import com.project.transferapi.domain.entity.TransactionStatus;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
-import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
-import com.project.transferapi.domain.ports.IFindUserById;
-import com.project.transferapi.domain.ports.IPublishTransferNotification;
+import com.project.transferapi.domain.ports.ExternalTransactionAuthorizerPort;
+import com.project.transferapi.domain.ports.FindUserByIdPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,10 +27,10 @@ class TransferAmountTest {
     TransferAmount transferAmount;
 
     @Mock
-    IFindUserById findUserById;
+    FindUserByIdPort findUserById;
 
     @Mock
-    IExternalTransactionAuthorizer externalTransactionAuthorizer;
+    ExternalTransactionAuthorizerPort externalTransactionAuthorizer;
 
     @Mock
     CreateTransaction createTransaction;

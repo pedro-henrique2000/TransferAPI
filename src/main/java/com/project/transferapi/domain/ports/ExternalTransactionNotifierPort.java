@@ -2,6 +2,6 @@ package com.project.transferapi.domain.ports;
 
 import java.math.BigDecimal;
 
-public interface IExternalTransactionNotifier {
+public interface ExternalTransactionNotifierPort {
     void sendNotification(String sourceName, String destinationName, BigDecimal amount, String status);
 }

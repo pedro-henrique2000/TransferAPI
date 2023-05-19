@@ -1,6 +1,6 @@
 package com.project.transferapi.application;
 
-import com.project.transferapi.domain.ports.IExternalTransactionNotifier;
+import com.project.transferapi.domain.ports.ExternalTransactionNotifierPort;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +17,7 @@ class TransferNotificatorTest {
     TransferNotificator notificator;
 
     @Mock
-    IExternalTransactionNotifier externalTransactionNotifier;
+    ExternalTransactionNotifierPort externalTransactionNotifier;
 
     @Test
     void shouldCallExternalTransactionNotifier() {

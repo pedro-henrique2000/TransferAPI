@@ -1,10 +1,10 @@
 package com.project.transferapi.infra.repository;
 
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.domain.ports.IFindUserById;
-import com.project.transferapi.domain.ports.ISaveUserRepository;
-import com.project.transferapi.domain.ports.IUserExistsByEmailRepository;
-import com.project.transferapi.domain.ports.IUserExistsByLegalDocumentNumberRepository;
+import com.project.transferapi.domain.ports.FindUserByIdPort;
+import com.project.transferapi.domain.ports.SaveUserRepositoryPort;
+import com.project.transferapi.domain.ports.UserExistsByEmailRepositoryPort;
+import com.project.transferapi.domain.ports.UserExistsByLegalDocumentNumberRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserRepository implements ISaveUserRepository, IFindUserById, IUserExistsByEmailRepository, IUserExistsByLegalDocumentNumberRepository {
+public class UserRepository implements SaveUserRepositoryPort, FindUserByIdPort, UserExistsByEmailRepositoryPort, UserExistsByLegalDocumentNumberRepositoryPort {
 
     private final JpaUserRepository jpaUserRepository;
 

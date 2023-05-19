@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class CreateUser {
 
-    private final IEncryptPassword encryptPassword;
-    private final ISaveUserRepository saveUserRepository;
-    private final IUserExistsByEmailRepository userExistsByEmailRepository;
-    private final IUserExistsByLegalDocumentNumberRepository userExistsByLegalDocumentNumberRepository;
+    private final EncryptPasswordPort encryptPassword;
+    private final SaveUserRepositoryPort saveUserRepository;
+    private final UserExistsByEmailRepositoryPort userExistsByEmailRepository;
+    private final UserExistsByLegalDocumentNumberRepositoryPort userExistsByLegalDocumentNumberRepository;
 
     public Long invoke(final User user) {
         if (this.userExistsByLegalDocumentNumberRepository.existsByDocumentNumber(user.getLegalDocumentNumber())) {

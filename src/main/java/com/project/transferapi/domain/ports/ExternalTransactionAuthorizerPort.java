@@ -1,5 +1,5 @@
 package com.project.transferapi.domain.ports;
 
-public interface IExternalTransactionAuthorizer {
+public interface ExternalTransactionAuthorizerPort {
     boolean invoke();
 }

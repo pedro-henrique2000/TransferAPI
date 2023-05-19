@@ -1,6 +1,6 @@
 package com.project.transferapi.interfaces.outbound.http;
 
-import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
+import com.project.transferapi.domain.ports.ExternalTransactionAuthorizerPort;
 import com.project.transferapi.interfaces.outbound.dto.ExternalAuthorizerResponseDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import static java.util.Objects.nonNull;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class ExternalTransactionAuthorizerService implements IExternalTransactionAuthorizer {
+public class ExternalTransactionAuthorizerService implements ExternalTransactionAuthorizerPort {
 
     private static final String APPROVED_MESSAGE = "Autorizado";
     private final ExternalTransactionAuthorizerFeignClient externalTransactionAuthorizerFeignClient;

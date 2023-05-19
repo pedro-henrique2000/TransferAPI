@@ -1,7 +1,7 @@
 package com.project.transferapi.interfaces.outbound.amqp.publisher;
 
 import com.project.transferapi.domain.entity.Transaction;
-import com.project.transferapi.domain.ports.IPublishTransferNotification;
+import com.project.transferapi.domain.ports.PublishTransferNotificationPort;
 import com.project.transferapi.interfaces.outbound.dto.TransferNotificationDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Component
 @Slf4j
-class TransferNotificationPublisher implements IPublishTransferNotification {
+class TransferNotificationPublisher implements PublishTransferNotificationPort {
 
     private final RabbitTemplate rabbitTemplate;
 

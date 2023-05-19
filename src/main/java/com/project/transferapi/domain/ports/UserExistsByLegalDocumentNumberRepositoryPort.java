@@ -1,5 +1,5 @@
 package com.project.transferapi.domain.ports;
 
-public interface IUserExistsByLegalDocumentNumberRepository {
+public interface UserExistsByLegalDocumentNumberRepositoryPort {
     boolean existsByDocumentNumber(final String number);
 }

@@ -3,8 +3,8 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
-import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
-import com.project.transferapi.domain.ports.IFindUserById;
+import com.project.transferapi.domain.ports.ExternalTransactionAuthorizerPort;
+import com.project.transferapi.domain.ports.FindUserByIdPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,8 +18,8 @@ import static com.project.transferapi.domain.entity.TransactionStatus.*;
 @RequiredArgsConstructor
 public class TransferAmount {
 
-    private final IFindUserById findUserById;
-    private final IExternalTransactionAuthorizer externalTransactionAuthorizer;
+    private final FindUserByIdPort findUserById;
+    private final ExternalTransactionAuthorizerPort externalTransactionAuthorizer;
     private final CreateTransaction createTransaction;
 
     public void invoke(Long sourceId, Long destinationId, BigDecimal amount) {

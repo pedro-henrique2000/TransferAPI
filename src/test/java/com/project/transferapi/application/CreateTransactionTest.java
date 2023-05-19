@@ -3,9 +3,9 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.Transaction;
 import com.project.transferapi.domain.entity.TransactionStatus;
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.domain.ports.IPublishTransferNotification;
-import com.project.transferapi.domain.ports.ISaveTransaction;
-import com.project.transferapi.domain.ports.ISaveUserRepository;
+import com.project.transferapi.domain.ports.PublishTransferNotificationPort;
+import com.project.transferapi.domain.ports.SaveTransactionPort;
+import com.project.transferapi.domain.ports.SaveUserRepositoryPort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,10 +25,10 @@ class CreateTransactionTest {
     CreateTransaction createTransaction;
 
     @Mock
-    ISaveTransaction saveTransaction;
+    SaveTransactionPort saveTransaction;
 
     @Mock
-    ISaveUserRepository saveUserRepository;
+    SaveUserRepositoryPort saveUserRepository;
 
     @Mock
     User source;
@@ -40,7 +40,7 @@ class CreateTransactionTest {
     Transaction savedTransaction;
 
     @Mock
-    IPublishTransferNotification publishTransferNotification;
+    PublishTransferNotificationPort publishTransferNotification;
 
     @BeforeEach
     void setup() {

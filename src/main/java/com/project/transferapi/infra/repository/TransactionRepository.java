@@ -1,13 +1,13 @@
 package com.project.transferapi.infra.repository;
 
 import com.project.transferapi.domain.entity.Transaction;
-import com.project.transferapi.domain.ports.ISaveTransaction;
+import com.project.transferapi.domain.ports.SaveTransactionPort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TransactionRepository implements ISaveTransaction {
+public class TransactionRepository implements SaveTransactionPort {
 
     private final JpaTransactionRepository jpaTransactionRepository;
 

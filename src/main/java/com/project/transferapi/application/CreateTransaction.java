@@ -3,9 +3,9 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.Transaction;
 import com.project.transferapi.domain.entity.TransactionStatus;
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.domain.ports.IPublishTransferNotification;
-import com.project.transferapi.domain.ports.ISaveTransaction;
-import com.project.transferapi.domain.ports.ISaveUserRepository;
+import com.project.transferapi.domain.ports.PublishTransferNotificationPort;
+import com.project.transferapi.domain.ports.SaveTransactionPort;
+import com.project.transferapi.domain.ports.SaveUserRepositoryPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -17,9 +17,9 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CreateTransaction {
 
-    private final ISaveTransaction saveTransaction;
-    private final ISaveUserRepository saveUserRepository;
-    private final IPublishTransferNotification publishTransferNotification;
+    private final SaveTransactionPort saveTransaction;
+    private final SaveUserRepositoryPort saveUserRepository;
+    private final PublishTransferNotificationPort publishTransferNotification;
 
     public Transaction invoke(User destination, User source, BigDecimal amount, TransactionStatus status) {
         log.info("CreateTransaction::invoke - Creating transaction for source {} and destination {}. Transaction Status Status {}", source.getId(), destination.getId(), status);
