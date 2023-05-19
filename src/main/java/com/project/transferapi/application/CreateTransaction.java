@@ -3,6 +3,7 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.Transaction;
 import com.project.transferapi.domain.entity.TransactionStatus;
 import com.project.transferapi.domain.entity.User;
+import com.project.transferapi.domain.ports.IPublishTransferNotification;
 import com.project.transferapi.domain.ports.ISaveTransaction;
 import com.project.transferapi.domain.ports.ISaveUserRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ public class CreateTransaction {
 
     private final ISaveTransaction saveTransaction;
     private final ISaveUserRepository saveUserRepository;
+    private final IPublishTransferNotification publishTransferNotification;
 
     public Transaction invoke(User destination, User source, BigDecimal amount, TransactionStatus status) {
         Transaction savedTransaction = this.saveTransaction.save(Transaction.builder()
@@ -30,6 +32,8 @@ public class CreateTransaction {
 
         this.saveUserRepository.save(destination);
         this.saveUserRepository.save(source);
+
+        this.publishTransferNotification.notify(savedTransaction);
 
         return savedTransaction;
     }

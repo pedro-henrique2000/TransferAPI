@@ -7,7 +7,7 @@ import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import com.project.transferapi.domain.ports.IExternalTransactionAuthorizer;
 import com.project.transferapi.domain.ports.IFindUserById;
-import com.project.transferapi.domain.ports.ITransferNotification;
+import com.project.transferapi.domain.ports.IPublishTransferNotification;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,9 +32,6 @@ class TransferAmountTest {
 
     @Mock
     IExternalTransactionAuthorizer externalTransactionAuthorizer;
-
-    @Mock
-    ITransferNotification transferNotification;
 
     @Mock
     CreateTransaction createTransaction;
@@ -62,7 +59,6 @@ class TransferAmountTest {
     void whenTransferAmount_givenGivenValidData_thenCallTransferNotification() {
         this.transferAmount.invoke(1L, 2L, BigDecimal.ZERO);
 
-        verify(transferNotification, times(1)).invoke(sourceUser, destinationUser, BigDecimal.ZERO);
         verify(createTransaction, times(1)).invoke(destinationUser, sourceUser , BigDecimal.ZERO, TransactionStatus.COMPLETED);
     }
 

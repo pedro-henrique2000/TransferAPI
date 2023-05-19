@@ -3,6 +3,7 @@ package com.project.transferapi.application;
 import com.project.transferapi.domain.entity.Transaction;
 import com.project.transferapi.domain.entity.TransactionStatus;
 import com.project.transferapi.domain.entity.User;
+import com.project.transferapi.domain.ports.IPublishTransferNotification;
 import com.project.transferapi.domain.ports.ISaveTransaction;
 import com.project.transferapi.domain.ports.ISaveUserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -38,6 +39,9 @@ class CreateTransactionTest {
     @Mock
     Transaction savedTransaction;
 
+    @Mock
+    IPublishTransferNotification publishTransferNotification;
+
     @BeforeEach
     void setup() {
         lenient().when(this.saveTransaction.save(any(Transaction.class))).thenReturn(savedTransaction);
@@ -48,6 +52,7 @@ class CreateTransactionTest {
         Transaction response = this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
 
         verify(this.saveTransaction, times(1)).save(any(Transaction.class));
+        verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
         assertEquals(savedTransaction, response);
     }
 
@@ -56,6 +61,7 @@ class CreateTransactionTest {
         this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
 
         verify(this.destination, times(1)).addReceivedTransaction(savedTransaction);
+        verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
         verify(this.source, times(1)).addSentTransaction(savedTransaction);
     }
 
@@ -64,6 +70,8 @@ class CreateTransactionTest {
         this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
 
         verify(this.saveUserRepository, times(1)).save(destination);
+        verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
+
         verify(this.saveUserRepository, times(1)).save(source);
     }
 
