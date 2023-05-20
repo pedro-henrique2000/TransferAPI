@@ -3,6 +3,8 @@ package com.project.transferapi.domain.entity;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserTest {
@@ -34,5 +36,50 @@ class UserTest {
         boolean decreased = user.decreaseBalance(BigDecimal.TEN);
         assertTrue(decreased);
     }
+
+    @Test
+    void shouldReturnTrueIfUserIsTypeShopper() {
+        User user = User.builder().type(UserType.SHOPPER).build();
+        boolean decreased = user.isShopper();
+        assertTrue(decreased);
+    }
+
+    @Test
+    void shouldReturnFalseIfUserIsTypeCommon() {
+        User user = User.builder().type(UserType.COMMON).build();
+        boolean decreased = user.isShopper();
+        assertFalse(decreased);
+    }
+
+    @Test
+    void shouldAddReceivedTransaction() {
+        Transaction transaction = Transaction.builder().build();
+        User user = User.builder().build();
+        user.addReceivedTransaction(transaction);
+        assertEquals(1, user.getReceivedTransactions().size());
+    }
+
+    @Test
+    void shouldAddSentTransaction() {
+        Transaction transaction = Transaction.builder().build();
+        User user = User.builder().build();
+        user.addSentTransaction(transaction);
+        assertEquals(1, user.getSentTransactions().size());
+    }
+
+    @Test
+    void shouldReturnExpectedValues() {
+        User user = User.builder()
+                .id(1L)
+                .createdAt(LocalDateTime.now())
+                .updatedAt(LocalDateTime.now())
+                .build();
+
+        assertEquals(1L, user.getId());
+        assertNotNull(user.getCreatedAt());
+        assertNotNull(user.getUpdatedAt());
+        assertTrue(new User() instanceof User);
+    }
+
 
 }
