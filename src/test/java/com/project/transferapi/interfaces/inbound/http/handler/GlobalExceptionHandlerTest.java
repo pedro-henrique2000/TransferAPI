@@ -24,6 +24,12 @@ class GlobalExceptionHandlerTest {
     }
 
     @Test
+    void whenBusinessExceptionOccurs_shouldReturn500() {
+        ResponseEntity<ExceptionDetails> response = handler.handleInternalException(new RuntimeException("msg"));
+        assertEquals(500, response.getStatusCode().value());
+    }
+
+    @Test
     void whenBusinessExceptionOccurs_shouldReturn422() {
         ResponseEntity<ExceptionDetails> response = handler.handleBusinessException(new BusinessException("msg"));
         assertEquals(422, response.getStatusCode().value());

@@ -65,6 +65,22 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY.value()).body(exceptionDetails);
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<ExceptionDetails> handleInternalException(final Exception exception) {
+        exception.printStackTrace();
+
+        final ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .details(exception.getMessage())
+                .title("Internal Error")
+                .timestamp(LocalDateTime.now())
+                .developerMessage(exception.getClass().getName())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(exceptionDetails);
+    }
+
     @Override
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException methodArgumentNotValidException, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
