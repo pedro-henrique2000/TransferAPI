@@ -2,6 +2,7 @@ package com.project.transferapi.interfaces.inbound.http.handler;
 
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ConflictException;
+import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -22,6 +23,20 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
+    @ExceptionHandler(ResourceNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<ExceptionDetails> handleResourceNotFoundException(final ResourceNotFoundException resourceNotFoundException) {
+        final ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+                .status(HttpStatus.NOT_FOUND.value())
+                .details(resourceNotFoundException.getMessage())
+                .title("Not Found Exception")
+                .timestamp(LocalDateTime.now())
+                .developerMessage(resourceNotFoundException.getClass().getName())
+                .build();
+
+        return ResponseEntity.status(404).body(exceptionDetails);
+    }
+
     @ExceptionHandler(ConflictException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
     public ResponseEntity<ExceptionDetails> handleConflictException(final ConflictException conflictException) {
@@ -38,7 +53,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public ResponseEntity<ExceptionDetails> handleConflictException(final BusinessException exception) {
+    public ResponseEntity<ExceptionDetails> handleBusinessException(final BusinessException exception) {
         final ExceptionDetails exceptionDetails = ExceptionDetails.builder()
                 .status(HttpStatus.UNPROCESSABLE_ENTITY.value())
                 .details(exception.getMessage())

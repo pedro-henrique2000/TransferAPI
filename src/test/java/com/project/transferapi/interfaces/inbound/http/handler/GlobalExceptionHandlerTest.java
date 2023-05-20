@@ -1,6 +1,8 @@
 package com.project.transferapi.interfaces.inbound.http.handler;
 
+import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ConflictException;
+import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -19,6 +21,18 @@ class GlobalExceptionHandlerTest {
     void whenConflictExceptionOccurs_shouldReturn409() {
         ResponseEntity<ExceptionDetails> response = handler.handleConflictException(new ConflictException("msg"));
         assertEquals(409, response.getStatusCode().value());
+    }
+
+    @Test
+    void whenBusinessExceptionOccurs_shouldReturn422() {
+        ResponseEntity<ExceptionDetails> response = handler.handleBusinessException(new BusinessException("msg"));
+        assertEquals(422, response.getStatusCode().value());
+    }
+
+    @Test
+    void whenBusinessExceptionOccurs_shouldReturn404() {
+        ResponseEntity<ExceptionDetails> response = handler.handleResourceNotFoundException(new ResourceNotFoundException("msg"));
+        assertEquals(404, response.getStatusCode().value());
     }
 
 }
