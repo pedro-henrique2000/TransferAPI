@@ -105,7 +105,7 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.role.getAuthorities();
+        return this.getRole().getAuthorities();
     }
 
     @Override
