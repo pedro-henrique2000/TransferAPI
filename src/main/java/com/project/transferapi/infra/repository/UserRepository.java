@@ -1,10 +1,7 @@
 package com.project.transferapi.infra.repository;
 
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.domain.ports.FindUserByIdPort;
-import com.project.transferapi.domain.ports.SaveUserRepositoryPort;
-import com.project.transferapi.domain.ports.UserExistsByEmailRepositoryPort;
-import com.project.transferapi.domain.ports.UserExistsByLegalDocumentNumberRepositoryPort;
+import com.project.transferapi.domain.ports.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +9,7 @@ import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
-public class UserRepository implements SaveUserRepositoryPort, FindUserByIdPort, UserExistsByEmailRepositoryPort, UserExistsByLegalDocumentNumberRepositoryPort {
+public class UserRepository implements FindUserByEmailPort, SaveUserRepositoryPort, FindUserByIdPort, UserExistsByEmailRepositoryPort, UserExistsByLegalDocumentNumberRepositoryPort {
 
     private final JpaUserRepository jpaUserRepository;
 
@@ -34,5 +31,10 @@ public class UserRepository implements SaveUserRepositoryPort, FindUserByIdPort,
     @Override
     public boolean existsByDocumentNumber(String number) {
         return this.jpaUserRepository.existsByLegalDocumentNumberAllIgnoreCase(number);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return this.jpaUserRepository.findByEmail(email);
     }
 }

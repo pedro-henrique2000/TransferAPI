@@ -1,5 +1,6 @@
 package com.project.transferapi.interfaces.inbound.http.mapper;
 
+import com.project.transferapi.domain.entity.Role;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.entity.UserType;
 import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
@@ -17,6 +18,7 @@ public class UserDTOMapper {
                 .type(UserType.valueOf(createUserDTO.getType()))
                 .email(createUserDTO.getEmail())
                 .password(createUserDTO.getPassword())
+                .role(Role.USER)
                 .legalDocumentNumber(createUserDTO.getLegalDocumentNumber())
                 .build();
     }

@@ -1,9 +1,11 @@
 package com.project.transferapi.domain.entity;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.security.core.GrantedAuthority;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.Collection;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -79,6 +81,36 @@ class UserTest {
         assertNotNull(user.getCreatedAt());
         assertNotNull(user.getUpdatedAt());
         assertTrue(new User() instanceof User);
+    }
+
+    @Test
+    void shouldReturnExpectedBooleanValues() {
+        User user = User.builder()
+                .build();
+
+        assertTrue(user.isAccountNonLocked());
+        assertTrue(user.isCredentialsNonExpired());
+        assertTrue(user.isEnabled());
+        assertTrue(user.isAccountNonExpired());
+    }
+
+    @Test
+    void shouldReturnUsername() {
+        User user = User.builder()
+                .email("mail")
+                .build();
+
+        assertEquals("mail", user.getUsername());
+    }
+
+    @Test
+    void shouldReturnAuthorities() {
+        User user = User.builder()
+                .role(Role.ADMIN)
+                .build();
+
+        var authorities = user.getAuthorities();
+        assertFalse(authorities.isEmpty());
     }
 
 
