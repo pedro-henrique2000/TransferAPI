@@ -2,7 +2,7 @@ package com.project.transferapi.interfaces.inbound.http.controller;
 
 import com.project.transferapi.application.CreateUser;
 import com.project.transferapi.domain.entity.User;
-import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
+import com.project.transferapi.interfaces.inbound.http.dto.CreateUserRequest;
 import com.project.transferapi.interfaces.inbound.http.mapper.UserDTOMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,22 +28,22 @@ class UserControllerTest {
     UserDTOMapper userDTOMapper;
 
     @Mock
-    CreateUserDTO createUserDTO;
+    CreateUserRequest createUserRequest;
 
     @Mock
     User user;
 
     @Test
     void whenPostNewUser_givenValidData_shouldCallCreateUserMethod() {
-        when(this.userDTOMapper.toUserEntity(createUserDTO)).thenReturn(user);
-        controller.postUser(createUserDTO);
+        when(this.userDTOMapper.toUserEntity(createUserRequest)).thenReturn(user);
+        controller.postUser(createUserRequest);
 
         verify(this.createUser, times(1)).invoke(user);
     }
 
     @Test
     void whenPostNewUser_givenValidData_shouldReturnStatus201() {
-        ResponseEntity<Void> response = controller.postUser(createUserDTO);
+        ResponseEntity<Void> response = controller.postUser(createUserRequest);
         assertEquals(HttpStatusCode.valueOf(201), response.getStatusCode());
     }
 }

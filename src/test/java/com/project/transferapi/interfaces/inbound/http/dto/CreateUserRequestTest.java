@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class CreateUserDTOTest {
+class CreateUserRequestTest {
 
     @Test
     void shouldReturnFalseWhenPasswordIsNull() {
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        boolean validPasswordCombination = createUserDTO.isValidPasswordConfirmation();
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        boolean validPasswordCombination = createUserRequest.isValidPasswordConfirmation();
         assertFalse(validPasswordCombination);
     }
 

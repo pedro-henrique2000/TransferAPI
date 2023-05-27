@@ -2,7 +2,7 @@ package com.project.transferapi.interfaces.inbound.http.mapper;
 
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.entity.UserType;
-import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
+import com.project.transferapi.interfaces.inbound.http.dto.CreateUserRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,7 +18,7 @@ class UserDTOMapperTest {
 
     @Test
     void whenMapToUser_givenValidDTO_thenConvertCorrectly() {
-        CreateUserDTO userDTO = getUserDTO();
+        CreateUserRequest userDTO = getUserDTO();
         User userEntity = this.mapper.toUserEntity(userDTO);
 
         assertEquals("mail", userEntity.getEmail());
@@ -28,14 +28,14 @@ class UserDTOMapperTest {
         assertEquals("cnpj", userEntity.getLegalDocumentNumber());
     }
 
-    private static CreateUserDTO getUserDTO() {
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setEmail("mail");
-        createUserDTO.setType("COMMON");
-        createUserDTO.setPassword("pass");
-        createUserDTO.setFullName("name");
-        createUserDTO.setLegalDocumentNumber("cnpj");
-        return createUserDTO;
+    private static CreateUserRequest getUserDTO() {
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setEmail("mail");
+        createUserRequest.setType("COMMON");
+        createUserRequest.setPassword("pass");
+        createUserRequest.setFullName("name");
+        createUserRequest.setLegalDocumentNumber("cnpj");
+        return createUserRequest;
     }
 
 }

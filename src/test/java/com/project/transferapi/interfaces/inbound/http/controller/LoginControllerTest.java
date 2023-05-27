@@ -1,10 +1,8 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
 import com.project.transferapi.application.AuthenticateUser;
-import com.project.transferapi.application.TransferAmount;
 import com.project.transferapi.interfaces.inbound.http.dto.AuthenticationRequest;
 import com.project.transferapi.interfaces.inbound.http.dto.AuthenticationResponse;
-import com.project.transferapi.interfaces.inbound.http.dto.TransferAmountDTO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +11,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
-import java.math.BigDecimal;
 import java.util.Objects;
 
 import static org.mockito.Mockito.*;
