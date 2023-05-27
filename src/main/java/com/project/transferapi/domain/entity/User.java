@@ -7,10 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
@@ -22,7 +25,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -48,6 +51,10 @@ public class User {
 
     @Column(nullable = false)
     private BigDecimal balance;
+
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
@@ -97,38 +104,32 @@ public class User {
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        if (!getId().equals(user.getId())) return false;
-        if (!getFullName().equals(user.getFullName())) return false;
-        if (!getLegalDocumentNumber().equals(user.getLegalDocumentNumber())) return false;
-        if (!getEmail().equals(user.getEmail())) return false;
-        if (!getPassword().equals(user.getPassword())) return false;
-        if (!getReceivedTransactions().equals(user.getReceivedTransactions())) return false;
-        if (!getSentTransactions().equals(user.getSentTransactions())) return false;
-        if (!getBalance().equals(user.getBalance())) return false;
-        if (getType() != user.getType()) return false;
-        if (!getCreatedAt().equals(user.getCreatedAt())) return false;
-        return getUpdatedAt().equals(user.getUpdatedAt());
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return this.role.getAuthorities();
     }
 
     @Override
-    public int hashCode() {
-        int result = getId().hashCode();
-        result = 31 * result + getFullName().hashCode();
-        result = 31 * result + getLegalDocumentNumber().hashCode();
-        result = 31 * result + getEmail().hashCode();
-        result = 31 * result + getPassword().hashCode();
-        result = 31 * result + getReceivedTransactions().hashCode();
-        result = 31 * result + getSentTransactions().hashCode();
-        result = 31 * result + getBalance().hashCode();
-        result = 31 * result + getType().hashCode();
-        result = 31 * result + getCreatedAt().hashCode();
-        result = 31 * result + getUpdatedAt().hashCode();
-        return result;
+    public String getUsername() {
+        return this.getEmail();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
