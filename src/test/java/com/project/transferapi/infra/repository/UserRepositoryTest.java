@@ -35,6 +35,7 @@ class UserRepositoryTest {
         lenient().when(userRepository.existsByLegalDocumentNumberAllIgnoreCase("email")).thenReturn(true);
         lenient().when(userRepository.save(any(User.class))).thenReturn(expectedUser);
         lenient().when(userRepository.findById(1L)).thenReturn(Optional.of(expectedUser));
+        lenient().when(userRepository.findByEmail("email")).thenReturn(Optional.of(expectedUser));
     }
 
     @Test
@@ -67,6 +68,12 @@ class UserRepositoryTest {
     void whenVerifyIfUserExistsByDocument_givenDocument_thenReturnBoolean() {
         boolean res = this.repository.existsByDocumentNumber("number");
         assertTrue(res);
+    }
+
+    @Test
+    void whenFindByEmail_givenEmail_thenReturnUser() {
+        Optional<User> byEmail = this.repository.findByEmail("email");
+        assertTrue(byEmail.isPresent());
     }
 
 

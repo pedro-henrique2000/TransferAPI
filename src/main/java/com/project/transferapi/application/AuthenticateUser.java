@@ -1,5 +1,6 @@
 package com.project.transferapi.application;
 
+import com.project.transferapi.domain.exceptions.BadCredentialsException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
 import com.project.transferapi.domain.ports.FindUserByEmailPort;
 import com.project.transferapi.domain.ports.GenerateAccessTokenPort;
@@ -21,10 +22,10 @@ public class AuthenticateUser {
 
     public String invoke(String email, String password) {
         var user = this.findUserByEmail.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found user " + email));
+                .orElseThrow(() -> new BadCredentialsException("Not found user " + email));
 
         if (!this.passwordComparer.equals(password, user.getPassword())) {
-            throw new RuntimeException();
+            throw new BadCredentialsException("Invalid password");
         }
 
         this.managerAuthenticationPort.authentication(email, password);
