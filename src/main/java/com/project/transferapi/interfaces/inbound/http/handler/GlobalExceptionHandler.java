@@ -1,5 +1,6 @@
 package com.project.transferapi.interfaces.inbound.http.handler;
 
+import com.project.transferapi.domain.exceptions.BadCredentialsException;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ConflictException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
@@ -7,6 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -22,6 +24,34 @@ import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+   @ExceptionHandler(AccessDeniedException.class)
+   @ResponseStatus(HttpStatus.FORBIDDEN)
+   public ResponseEntity<ExceptionDetails> handleAccessDenied(final AccessDeniedException accessDeniedException) {
+      final ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+            .status(HttpStatus.FORBIDDEN.value())
+            .details(accessDeniedException.getMessage())
+            .title("Forbidden Exception")
+            .timestamp(LocalDateTime.now())
+            .developerMessage(accessDeniedException.getClass().getName())
+            .build();
+
+      return ResponseEntity.status(403).body(exceptionDetails);
+   }
+
+   @ExceptionHandler(BadCredentialsException.class)
+   @ResponseStatus(HttpStatus.CONFLICT)
+   public ResponseEntity<ExceptionDetails> handleBadCredentials(final BadCredentialsException badCredentialsException) {
+      final ExceptionDetails exceptionDetails = ExceptionDetails.builder()
+            .status(HttpStatus.UNAUTHORIZED.value())
+            .details(badCredentialsException.getMessage())
+            .title("Unauthorized Exception")
+            .timestamp(LocalDateTime.now())
+            .developerMessage(badCredentialsException.getClass().getName())
+            .build();
+
+      return ResponseEntity.status(401).body(exceptionDetails);
+   }
 
    @ExceptionHandler(ResourceNotFoundException.class)
    @ResponseStatus(HttpStatus.NOT_FOUND)

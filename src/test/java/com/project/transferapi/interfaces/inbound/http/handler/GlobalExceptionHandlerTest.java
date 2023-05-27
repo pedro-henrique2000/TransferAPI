@@ -1,5 +1,6 @@
 package com.project.transferapi.interfaces.inbound.http.handler;
 
+import com.project.transferapi.domain.exceptions.BadCredentialsException;
 import com.project.transferapi.domain.exceptions.BusinessException;
 import com.project.transferapi.domain.exceptions.ConflictException;
 import com.project.transferapi.domain.exceptions.ResourceNotFoundException;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -39,6 +41,18 @@ class GlobalExceptionHandlerTest {
    void whenBusinessExceptionOccurs_shouldReturn404() {
       ResponseEntity<ExceptionDetails> response = handler.handleResourceNotFoundException(new ResourceNotFoundException("msg"));
       assertEquals(404, response.getStatusCode().value());
+   }
+
+   @Test
+   void whenBadCredentialsOccurs_shouldReturn401() {
+      ResponseEntity<ExceptionDetails> response = handler.handleBadCredentials(new BadCredentialsException("msg"));
+      assertEquals(401, response.getStatusCode().value());
+   }
+
+   @Test
+   void whenAccessDeniedOccurs_shouldReturn403() {
+      ResponseEntity<ExceptionDetails> response = handler.handleAccessDenied(new AccessDeniedException("msg"));
+      assertEquals(403, response.getStatusCode().value());
    }
 
 }
