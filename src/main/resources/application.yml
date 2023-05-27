@@ -1,4 +1,9 @@
 spring:
+  sleuth:
+    traceId128: true
+    supportsJoin: false
+  application:
+    name: transfer-api
   datasource:
     username: user
     url: jdbc:mysql://localhost:3306/db
@@ -13,3 +18,12 @@ spring:
     notifyTransactionExchange: notify_transaction
     notifyTransactionQueue: q_notify_transaction
     username: guest
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
