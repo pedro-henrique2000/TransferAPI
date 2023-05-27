@@ -1,12 +1,9 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
 import com.project.transferapi.application.CreateUser;
-import com.project.transferapi.interfaces.inbound.http.dto.AuthenticationResponse;
 import com.project.transferapi.interfaces.inbound.http.dto.CreateUserRequest;
 import com.project.transferapi.interfaces.inbound.http.mapper.UserDTOMapper;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
