@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/transfer")
+@RequestMapping("api/transfer")
 public class TransferController {
 
     private final TransferAmount transferAmount;

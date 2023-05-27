@@ -11,6 +11,10 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.project.transferapi.domain.entity.Permission.*;
+import static com.project.transferapi.domain.entity.Role.ADMIN;
+import static org.springframework.http.HttpMethod.*;
+
 @EnableMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -26,8 +30,13 @@ public class SecurityConfiguration {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth", "/users")
+                .requestMatchers("api/auth", "api/users")
                 .permitAll()
+                .requestMatchers("/api/management/**").hasAnyRole(ADMIN.name())
+                .requestMatchers(GET, "/api/management/**").hasAnyAuthority(ADMIN_READ.name())
+                .requestMatchers(POST, "/api/management/**").hasAnyAuthority(ADMIN_CREATE.name())
+                .requestMatchers(PUT, "/api/management/**").hasAnyAuthority(ADMIN_UPDATE.name())
+                .requestMatchers(DELETE, "/api/management/**").hasAnyAuthority(ADMIN_DELETE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
