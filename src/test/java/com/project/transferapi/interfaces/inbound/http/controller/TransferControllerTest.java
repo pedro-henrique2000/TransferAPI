@@ -1,7 +1,7 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
 import com.project.transferapi.application.TransferAmount;
-import com.project.transferapi.interfaces.inbound.http.dto.TransferAmountDTO;
+import com.project.transferapi.interfaces.inbound.http.dto.TransferAmountRequest;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,12 +25,12 @@ class TransferControllerTest {
 
     @Test
     void shouldCallTransferAmount() {
-        TransferAmountDTO transferAmountDTO = new TransferAmountDTO();
-        transferAmountDTO.setAmount(BigDecimal.TEN);
-        transferAmountDTO.setSourceId(1L);
-        transferAmountDTO.setDestinationId(2L);
+        TransferAmountRequest transferAmountRequest = new TransferAmountRequest();
+        transferAmountRequest.setAmount(BigDecimal.TEN);
+        transferAmountRequest.setSourceId(1L);
+        transferAmountRequest.setDestinationId(2L);
 
-        ResponseEntity<Void> response = transferController.transfer(transferAmountDTO);
+        ResponseEntity<Void> response = transferController.transfer(transferAmountRequest);
 
         verify(this.transferAmount, times(1)).invoke(1L, 2L, BigDecimal.TEN);
         Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());

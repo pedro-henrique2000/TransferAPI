@@ -2,32 +2,32 @@ package com.project.transferapi.interfaces.inbound.http.controller;
 
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.entity.UserType;
-import com.project.transferapi.interfaces.inbound.http.dto.CreateUserDTO;
+import com.project.transferapi.interfaces.inbound.http.dto.CreateUserRequest;
 
 import java.math.BigDecimal;
 
 public class UserFixture {
 
-    public static CreateUserDTO getValidCreateUserRequest() {
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setLegalDocumentNumber("cnpj");
-        createUserDTO.setType("COMMON");
-        createUserDTO.setEmail("mail@mail.com");
-        createUserDTO.setPassword("password");
-        createUserDTO.setPasswordConfirmation("password");
-        createUserDTO.setFullName("name");
-        return createUserDTO;
+    public static CreateUserRequest getValidCreateUserRequest() {
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setLegalDocumentNumber("cnpj");
+        createUserRequest.setType("COMMON");
+        createUserRequest.setEmail("mail@mail.com");
+        createUserRequest.setPassword("password");
+        createUserRequest.setPasswordConfirmation("password");
+        createUserRequest.setFullName("name");
+        return createUserRequest;
     }
 
-    public static CreateUserDTO getCreateUserDTOWithInvalidPassword() {
-        CreateUserDTO createUserDTO = new CreateUserDTO();
-        createUserDTO.setLegalDocumentNumber("cnpj");
-        createUserDTO.setType("COMMON");
-        createUserDTO.setEmail("mail@mail.com");
-        createUserDTO.setPassword("password1");
-        createUserDTO.setPasswordConfirmation("password2");
-        createUserDTO.setFullName("name");
-        return createUserDTO;
+    public static CreateUserRequest getCreateUserDTOWithInvalidPassword() {
+        CreateUserRequest createUserRequest = new CreateUserRequest();
+        createUserRequest.setLegalDocumentNumber("cnpj");
+        createUserRequest.setType("COMMON");
+        createUserRequest.setEmail("mail@mail.com");
+        createUserRequest.setPassword("password1");
+        createUserRequest.setPasswordConfirmation("password2");
+        createUserRequest.setFullName("name");
+        return createUserRequest;
     }
 
     public static User getUserModelWithDuplicatedEmail() {
