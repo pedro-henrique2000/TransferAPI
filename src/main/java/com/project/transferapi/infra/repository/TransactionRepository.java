@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TransactionRepository implements SaveTransactionPort {
 
-    private final JpaTransactionRepository jpaTransactionRepository;
+   private final JpaTransactionRepository jpaTransactionRepository;
 
-    @Override
-    public Transaction save(Transaction transaction) {
-        return this.jpaTransactionRepository.save(transaction);
-    }
+   @Override
+   public Transaction save(Transaction transaction) {
+      return this.jpaTransactionRepository.save(transaction);
+   }
 }

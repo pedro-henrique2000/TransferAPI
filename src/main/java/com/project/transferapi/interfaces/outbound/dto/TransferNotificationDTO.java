@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 public class TransferNotificationDTO {
-    private String sourceName;
-    private String destinationName;
-    private BigDecimal amount;
-    private String status;
+   private String sourceName;
+   private String destinationName;
+   private BigDecimal amount;
+   private String status;
 }

@@ -17,30 +17,30 @@ import java.math.BigDecimal;
 @RequiredArgsConstructor
 public class CreateTransaction {
 
-    private final SaveTransactionPort saveTransaction;
-    private final SaveUserRepositoryPort saveUserRepository;
-    private final PublishTransferNotificationPort publishTransferNotification;
+   private final SaveTransactionPort saveTransaction;
+   private final SaveUserRepositoryPort saveUserRepository;
+   private final PublishTransferNotificationPort publishTransferNotification;
 
-    public Transaction invoke(User destination, User source, BigDecimal amount, TransactionStatus status) {
-        log.info("CreateTransaction::invoke - Creating transaction for source {} and destination {}. Transaction Status Status {}", source.getId(), destination.getId(), status);
-        Transaction savedTransaction = this.saveTransaction.save(Transaction.builder()
-                .source(source)
-                .destination(destination)
-                .amount(amount)
-                .status(status)
-                .build());
+   public Transaction invoke(User destination, User source, BigDecimal amount, TransactionStatus status) {
+      log.info("CreateTransaction::invoke - Creating transaction for source {} and destination {}. Transaction Status Status {}", source.getId(), destination.getId(), status);
+      Transaction savedTransaction = this.saveTransaction.save(Transaction.builder()
+            .source(source)
+            .destination(destination)
+            .amount(amount)
+            .status(status)
+            .build());
 
-        destination.addReceivedTransaction(savedTransaction);
-        source.addSentTransaction(savedTransaction);
+      destination.addReceivedTransaction(savedTransaction);
+      source.addSentTransaction(savedTransaction);
 
-        this.saveUserRepository.save(destination);
-        this.saveUserRepository.save(source);
+      this.saveUserRepository.save(destination);
+      this.saveUserRepository.save(source);
 
-        this.publishTransferNotification.notify(savedTransaction);
+      this.publishTransferNotification.notify(savedTransaction);
 
-        log.info("CreateTransaction::invoke - Created transaction for source {} and destination {}. Saved Id {}", source.getId(), destination.getId(), savedTransaction.getId());
+      log.info("CreateTransaction::invoke - Created transaction for source {} and destination {}. Saved Id {}", source.getId(), destination.getId(), savedTransaction.getId());
 
-        return savedTransaction;
-    }
+      return savedTransaction;
+   }
 
 }

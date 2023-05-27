@@ -17,30 +17,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class CustomAuthenticationProvider {
 
-    private final FindUserByEmailPort findUserByEmail;
+   private final FindUserByEmailPort findUserByEmail;
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return username -> findUserByEmail.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-    }
+   @Bean
+   public UserDetailsService userDetailsService() {
+      return username -> findUserByEmail.findByEmail(username)
+            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+   }
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(this.userDetailsService());
-        daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
-        return daoAuthenticationProvider;
-    }
+   @Bean
+   public AuthenticationProvider authenticationProvider() {
+      DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+      daoAuthenticationProvider.setUserDetailsService(this.userDetailsService());
+      daoAuthenticationProvider.setPasswordEncoder(this.passwordEncoder());
+      return daoAuthenticationProvider;
+   }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
-        return configuration.getAuthenticationManager();
-    }
+   @Bean
+   public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+      return configuration.getAuthenticationManager();
+   }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+   @Bean
+   public PasswordEncoder passwordEncoder() {
+      return new BCryptPasswordEncoder();
+   }
 
 }

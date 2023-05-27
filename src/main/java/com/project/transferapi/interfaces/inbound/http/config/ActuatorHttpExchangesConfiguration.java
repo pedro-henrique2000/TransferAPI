@@ -7,9 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ActuatorHttpExchangesConfiguration {
-    @Bean
-    public HttpExchangeRepository httpTraceRepository()
-    {
-        return new InMemoryHttpExchangeRepository();
-    }
+   @Bean
+   public HttpExchangeRepository httpTraceRepository() {
+      return new InMemoryHttpExchangeRepository();
+   }
 }

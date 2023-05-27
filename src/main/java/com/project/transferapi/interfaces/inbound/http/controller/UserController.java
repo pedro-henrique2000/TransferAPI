@@ -18,26 +18,26 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "User Management", description = "User Management Endpoints")
 public class UserController {
 
-    private final CreateUser createUser;
-    private final UserDTOMapper mapper;
+   private final CreateUser createUser;
+   private final UserDTOMapper mapper;
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(
-            description = "Register Endpoint",
-            summary = "Register Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "201"
-                    )
-            })
-    public ResponseEntity<Void> postUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
-        this.createUser.invoke(this.mapper.toUserEntity(createUserRequest));
+   @PostMapping
+   @ResponseStatus(HttpStatus.CREATED)
+   @Operation(
+         description = "Register Endpoint",
+         summary = "Register Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "201"
+               )
+         })
+   public ResponseEntity<Void> postUser(@RequestBody @Valid CreateUserRequest createUserRequest) {
+      this.createUser.invoke(this.mapper.toUserEntity(createUserRequest));
 
-        return ResponseEntity
-                .status(201)
-                .build();
-    }
+      return ResponseEntity
+            .status(201)
+            .build();
+   }
 
 }

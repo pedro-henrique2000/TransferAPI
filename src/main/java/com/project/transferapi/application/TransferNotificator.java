@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 @Slf4j
 public class TransferNotificator {
 
-    private final ExternalTransactionNotifierPort externalTransactionNotifier;
+   private final ExternalTransactionNotifierPort externalTransactionNotifier;
 
-    public void invoke(String sourceName, String destinationName, BigDecimal amount, String status) {
-        this.externalTransactionNotifier.sendNotification(sourceName, destinationName, amount, status);
-    }
+   public void invoke(String sourceName, String destinationName, BigDecimal amount, String status) {
+      this.externalTransactionNotifier.sendNotification(sourceName, destinationName, amount, status);
+   }
 
 }

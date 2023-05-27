@@ -14,25 +14,25 @@ import static com.project.transferapi.domain.entity.Permission.*;
 @Getter
 @RequiredArgsConstructor
 public enum Role {
-    USER(Collections.emptySet()),
-    ADMIN(
-            Set.of(
-                    ADMIN_READ,
-                    ADMIN_UPDATE,
-                    ADMIN_DELETE,
-                    ADMIN_CREATE
-            )
-    );
+   USER(Collections.emptySet()),
+   ADMIN(
+         Set.of(
+               ADMIN_READ,
+               ADMIN_UPDATE,
+               ADMIN_DELETE,
+               ADMIN_CREATE
+         )
+   );
 
-    private final Set<Permission> permissions;
+   private final Set<Permission> permissions;
 
-    public List<SimpleGrantedAuthority> getAuthorities() {
-        var authorities = getPermissions()
-                .stream()
-                .map(permission -> new SimpleGrantedAuthority(permission.getPermissionName()))
-                .collect(Collectors.toList());
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
-        return authorities;
-    }
+   public List<SimpleGrantedAuthority> getAuthorities() {
+      var authorities = getPermissions()
+            .stream()
+            .map(permission -> new SimpleGrantedAuthority(permission.getPermissionName()))
+            .collect(Collectors.toList());
+      authorities.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
+      return authorities;
+   }
 
 }

@@ -10,43 +10,45 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.lenient;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ExternalTransactionAuthorizerServiceTest {
 
-    @InjectMocks
-    ExternalTransactionAuthorizerService externalTransactionAuthorizerService;
+   @InjectMocks
+   ExternalTransactionAuthorizerService externalTransactionAuthorizerService;
 
-    @Mock
-    ExternalTransactionAuthorizerFeignClient externalTransactionAuthorizerFeignClient;
+   @Mock
+   ExternalTransactionAuthorizerFeignClient externalTransactionAuthorizerFeignClient;
 
-    @Mock
-    ExternalAuthorizerResponseDTO externalAuthorizerResponseDTO;
+   @Mock
+   ExternalAuthorizerResponseDTO externalAuthorizerResponseDTO;
 
-    @Mock
-    ResponseEntity<ExternalAuthorizerResponseDTO> responseEntity;
+   @Mock
+   ResponseEntity<ExternalAuthorizerResponseDTO> responseEntity;
 
-    @BeforeEach
-    void setup() {
-        lenient().when(this.externalAuthorizerResponseDTO.getMessage()).thenReturn("Autorizado");
-        lenient().when(this.responseEntity.getStatusCode()).thenReturn(HttpStatusCode.valueOf(200));
-        lenient().when(this.responseEntity.getBody()).thenReturn(externalAuthorizerResponseDTO);
-        lenient().when(this.externalTransactionAuthorizerFeignClient.invoke()).thenReturn(responseEntity);
-    }
+   @BeforeEach
+   void setup() {
+      lenient().when(this.externalAuthorizerResponseDTO.getMessage()).thenReturn("Autorizado");
+      lenient().when(this.responseEntity.getStatusCode()).thenReturn(HttpStatusCode.valueOf(200));
+      lenient().when(this.responseEntity.getBody()).thenReturn(externalAuthorizerResponseDTO);
+      lenient().when(this.externalTransactionAuthorizerFeignClient.invoke()).thenReturn(responseEntity);
+   }
 
-    @Test
-    void whenCallTransferAuthorizerService_givenSuccessResponse_thenReturnTrue() {
-        boolean result = this.externalTransactionAuthorizerService.invoke();
-        assertTrue(result);
-    }
+   @Test
+   void whenCallTransferAuthorizerService_givenSuccessResponse_thenReturnTrue() {
+      boolean result = this.externalTransactionAuthorizerService.invoke();
+      assertTrue(result);
+   }
 
-    @Test
-    void whenCallTransferAuthorizerService_givenFailedResponse_thenReturnFalse() {
-        when(this.responseEntity.getStatusCode()).thenReturn(HttpStatusCode.valueOf(500));
-        boolean result = this.externalTransactionAuthorizerService.invoke();
-        assertFalse(result);
-    }
+   @Test
+   void whenCallTransferAuthorizerService_givenFailedResponse_thenReturnFalse() {
+      when(this.responseEntity.getStatusCode()).thenReturn(HttpStatusCode.valueOf(500));
+      boolean result = this.externalTransactionAuthorizerService.invoke();
+      assertFalse(result);
+   }
 
 }

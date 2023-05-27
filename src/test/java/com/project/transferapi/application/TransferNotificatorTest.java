@@ -8,22 +8,24 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import static org.mockito.Mockito.*;
+
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class TransferNotificatorTest {
 
-    @InjectMocks
-    TransferNotificator notificator;
+   @InjectMocks
+   TransferNotificator notificator;
 
-    @Mock
-    ExternalTransactionNotifierPort externalTransactionNotifier;
+   @Mock
+   ExternalTransactionNotifierPort externalTransactionNotifier;
 
-    @Test
-    void shouldCallExternalTransactionNotifier() {
-        notificator.invoke("source", "dest", BigDecimal.ONE, "status");
-        verify(this.externalTransactionNotifier, times(1)).sendNotification("source", "dest", BigDecimal.ONE, "status");
-    }
+   @Test
+   void shouldCallExternalTransactionNotifier() {
+      notificator.invoke("source", "dest", BigDecimal.ONE, "status");
+      verify(this.externalTransactionNotifier, times(1)).sendNotification("source", "dest", BigDecimal.ONE, "status");
+   }
 
 
 }

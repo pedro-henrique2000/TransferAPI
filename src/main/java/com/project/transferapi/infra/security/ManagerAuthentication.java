@@ -10,14 +10,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class ManagerAuthentication implements ManagerAuthenticationPort {
 
-    private final AuthenticationManager authenticationManager;
+   private final AuthenticationManager authenticationManager;
 
-    public void authentication(String email, String password) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        email, password
-                )
-        );
-    }
+   public void authentication(String email, String password) {
+      authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(
+                  email, password
+            )
+      );
+   }
 
 }

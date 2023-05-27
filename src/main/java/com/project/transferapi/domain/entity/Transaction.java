@@ -18,23 +18,23 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Transaction {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+   private Long id;
 
-    @Column(nullable = false)
-    private BigDecimal amount;
+   @Column(nullable = false)
+   private BigDecimal amount;
 
-    @ManyToOne
-    private User destination;
+   @ManyToOne
+   private User destination;
 
-    @ManyToOne
-    private User source;
+   @ManyToOne
+   private User source;
 
-    @CreationTimestamp
-    private LocalDateTime createdAt;
+   @CreationTimestamp
+   private LocalDateTime createdAt;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private TransactionStatus status;
+   @Column(nullable = false)
+   @Enumerated(EnumType.STRING)
+   private TransactionStatus status;
 }

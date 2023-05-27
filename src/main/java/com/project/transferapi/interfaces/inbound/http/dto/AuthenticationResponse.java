@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 @Builder
 public class AuthenticationResponse {
-    @Schema(required = true, example = "ey27887178e8172312412", description = "Generated User Token")
-    private String accessToken;
+   @Schema(required = true, example = "ey27887178e8172312412", description = "Generated User Token")
+   private String accessToken;
 }

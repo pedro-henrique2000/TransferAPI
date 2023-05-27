@@ -21,45 +21,45 @@ import static org.springframework.http.HttpMethod.*;
 @Configuration
 public class SecurityConfiguration {
 
-    private final JWTAuthenticationFilter jwtFilterAuthentication;
-    private final AuthenticationProvider authenticationProvider;
+   private final JWTAuthenticationFilter jwtFilterAuthentication;
+   private final AuthenticationProvider authenticationProvider;
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers(
-                        "api/auth",
-                        "api/users","/v2/api-docs",
-                        "/v3/api-docs",
-                        "/v3/api-docs/**",
-                        "/swagger-resources",
-                        "/swagger-resources/**",
-                        "/configuration/ui",
-                        "/configuration/security",
-                        "/swagger-ui/**",
-                        "/webjars/**",
-                        "/swagger-ui.html"
-                )
+   @Bean
+   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+      http
+            .csrf()
+            .disable()
+            .authorizeHttpRequests()
+            .requestMatchers(
+                  "api/auth",
+                  "api/users", "/v2/api-docs",
+                  "/v3/api-docs",
+                  "/v3/api-docs/**",
+                  "/swagger-resources",
+                  "/swagger-resources/**",
+                  "/configuration/ui",
+                  "/configuration/security",
+                  "/swagger-ui/**",
+                  "/webjars/**",
+                  "/swagger-ui.html"
+            )
 
-                .permitAll()
-                .requestMatchers("/api/management/**").hasAnyRole(ADMIN.name())
-                .requestMatchers(GET, "/api/management/**").hasAnyAuthority(ADMIN_READ.name())
-                .requestMatchers(POST, "/api/management/**").hasAnyAuthority(ADMIN_CREATE.name())
-                .requestMatchers(PUT, "/api/management/**").hasAnyAuthority(ADMIN_UPDATE.name())
-                .requestMatchers(DELETE, "/api/management/**").hasAnyAuthority(ADMIN_DELETE.name())
-                .anyRequest()
-                .authenticated()
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .authenticationProvider(this.authenticationProvider)
-                .addFilterBefore(this.jwtFilterAuthentication, UsernamePasswordAuthenticationFilter.class);
+            .permitAll()
+            .requestMatchers("/api/management/**").hasAnyRole(ADMIN.name())
+            .requestMatchers(GET, "/api/management/**").hasAnyAuthority(ADMIN_READ.name())
+            .requestMatchers(POST, "/api/management/**").hasAnyAuthority(ADMIN_CREATE.name())
+            .requestMatchers(PUT, "/api/management/**").hasAnyAuthority(ADMIN_UPDATE.name())
+            .requestMatchers(DELETE, "/api/management/**").hasAnyAuthority(ADMIN_DELETE.name())
+            .anyRequest()
+            .authenticated()
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .authenticationProvider(this.authenticationProvider)
+            .addFilterBefore(this.jwtFilterAuthentication, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+      return http.build();
+   }
 
 }

@@ -12,80 +12,80 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Management", description = "Management Endpoints")
 public class AdminController {
 
-    @GetMapping
-    @PreAuthorize("hasAuthority('admin:read')")
-    @Operation(
-            description = "Admin GET Endpoint",
-            summary = "Admin GET Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "200"
-                    ),
-                    @ApiResponse(
-                            description = "Unauthorized / Invalid Token",
-                            responseCode = "403"
-                    )
-            })
-    public String get() {
-        return "GET:: admin controller";
-    }
+   @GetMapping
+   @PreAuthorize("hasAuthority('admin:read')")
+   @Operation(
+         description = "Admin GET Endpoint",
+         summary = "Admin GET Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "200"
+               ),
+               @ApiResponse(
+                     description = "Unauthorized / Invalid Token",
+                     responseCode = "403"
+               )
+         })
+   public String get() {
+      return "GET:: admin controller";
+   }
 
-    @PostMapping
-    @PreAuthorize("hasAuthority('admin:create')")
-    @Operation(
-            description = "Admin POST Endpoint",
-            summary = "Admin POST Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "200"
-                    ),
-                    @ApiResponse(
-                            description = "Unauthorized / Invalid Token",
-                            responseCode = "403"
-                    )
-            })
-    public String post() {
-        return "POST:: admin controller";
-    }
+   @PostMapping
+   @PreAuthorize("hasAuthority('admin:create')")
+   @Operation(
+         description = "Admin POST Endpoint",
+         summary = "Admin POST Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "200"
+               ),
+               @ApiResponse(
+                     description = "Unauthorized / Invalid Token",
+                     responseCode = "403"
+               )
+         })
+   public String post() {
+      return "POST:: admin controller";
+   }
 
-    @PutMapping
-    @PreAuthorize("hasAuthority('admin:update')")
-    @Operation(
-            description = "Admin PUT Endpoint",
-            summary = "Admin PUT Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "200"
-                    ),
-                    @ApiResponse(
-                            description = "Unauthorized / Invalid Token",
-                            responseCode = "403"
-                    )
-            })
-    public String put() {
-        return "PUT:: admin controller";
-    }
+   @PutMapping
+   @PreAuthorize("hasAuthority('admin:update')")
+   @Operation(
+         description = "Admin PUT Endpoint",
+         summary = "Admin PUT Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "200"
+               ),
+               @ApiResponse(
+                     description = "Unauthorized / Invalid Token",
+                     responseCode = "403"
+               )
+         })
+   public String put() {
+      return "PUT:: admin controller";
+   }
 
-    @DeleteMapping
-    @PreAuthorize("hasAuthority('admin:delete')")
-    @Operation(
-            description = "Admin DELETE Endpoint",
-            summary = "Admin DELETE Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "200"
-                    ),
-                    @ApiResponse(
-                            description = "Unauthorized / Invalid Token",
-                            responseCode = "403"
-                    )
-            })
-    public String delete() {
-        return "DELETE:: admin controller";
-    }
+   @DeleteMapping
+   @PreAuthorize("hasAuthority('admin:delete')")
+   @Operation(
+         description = "Admin DELETE Endpoint",
+         summary = "Admin DELETE Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "200"
+               ),
+               @ApiResponse(
+                     description = "Unauthorized / Invalid Token",
+                     responseCode = "403"
+               )
+         })
+   public String delete() {
+      return "DELETE:: admin controller";
+   }
 
 }

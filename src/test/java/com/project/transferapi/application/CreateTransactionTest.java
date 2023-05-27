@@ -15,64 +15,64 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CreateTransactionTest {
 
-    @InjectMocks
-    CreateTransaction createTransaction;
+   @InjectMocks
+   CreateTransaction createTransaction;
 
-    @Mock
-    SaveTransactionPort saveTransaction;
+   @Mock
+   SaveTransactionPort saveTransaction;
 
-    @Mock
-    SaveUserRepositoryPort saveUserRepository;
+   @Mock
+   SaveUserRepositoryPort saveUserRepository;
 
-    @Mock
-    User source;
+   @Mock
+   User source;
 
-    @Mock
-    User destination;
+   @Mock
+   User destination;
 
-    @Mock
-    Transaction savedTransaction;
+   @Mock
+   Transaction savedTransaction;
 
-    @Mock
-    PublishTransferNotificationPort publishTransferNotification;
+   @Mock
+   PublishTransferNotificationPort publishTransferNotification;
 
-    @BeforeEach
-    void setup() {
-        lenient().when(this.saveTransaction.save(any(Transaction.class))).thenReturn(savedTransaction);
-    }
+   @BeforeEach
+   void setup() {
+      lenient().when(this.saveTransaction.save(any(Transaction.class))).thenReturn(savedTransaction);
+   }
 
-    @Test
-    void whenReceiveTransactionData_givenValidData_thenCallRepository() {
-        Transaction response = this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
+   @Test
+   void whenReceiveTransactionData_givenValidData_thenCallRepository() {
+      Transaction response = this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
 
-        verify(this.saveTransaction, times(1)).save(any(Transaction.class));
-        verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
-        assertEquals(savedTransaction, response);
-    }
+      verify(this.saveTransaction, times(1)).save(any(Transaction.class));
+      verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
+      assertEquals(savedTransaction, response);
+   }
 
-    @Test
-    void whenReceiveTransactionData_givenValidData_thenAddTransactionToSourceAndDestinationUser() {
-        this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
+   @Test
+   void whenReceiveTransactionData_givenValidData_thenAddTransactionToSourceAndDestinationUser() {
+      this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
 
-        verify(this.destination, times(1)).addReceivedTransaction(savedTransaction);
-        verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
-        verify(this.source, times(1)).addSentTransaction(savedTransaction);
-    }
+      verify(this.destination, times(1)).addReceivedTransaction(savedTransaction);
+      verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
+      verify(this.source, times(1)).addSentTransaction(savedTransaction);
+   }
 
-    @Test
-    void whenReceiveTransactionData_givenValidData_thenUpdateUser() {
-        this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
+   @Test
+   void whenReceiveTransactionData_givenValidData_thenUpdateUser() {
+      this.createTransaction.invoke(destination, source, BigDecimal.TEN, TransactionStatus.COMPLETED);
 
-        verify(this.saveUserRepository, times(1)).save(destination);
-        verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
+      verify(this.saveUserRepository, times(1)).save(destination);
+      verify(this.publishTransferNotification, times(1)).notify(any(Transaction.class));
 
-        verify(this.saveUserRepository, times(1)).save(source);
-    }
+      verify(this.saveUserRepository, times(1)).save(source);
+   }
 
 }

@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ExternalNotificationResponseDTO {
-    private String message;
+   private String message;
 }

@@ -14,23 +14,23 @@ import org.springframework.stereotype.Component;
 @Slf4j
 class TransferNotificationPublisher implements PublishTransferNotificationPort {
 
-    private final RabbitTemplate rabbitTemplate;
+   private final RabbitTemplate rabbitTemplate;
 
-    @Value("${spring.rabbitmq.notifyTransactionExchange}")
-    private String exchange;
+   @Value("${spring.rabbitmq.notifyTransactionExchange}")
+   private String exchange;
 
-    @Override
-    public void notify(Transaction transaction) {
-        log.info("TransferNotificationPublisher::notify - Publishing message for transaction with id {} and Source Name {}", transaction.getId(), transaction.getSource().getFullName());
-        this.rabbitTemplate.convertAndSend(
-                this.exchange,
-                "",
-                TransferNotificationDTO.builder()
-                        .sourceName(transaction.getSource().getFullName())
-                        .destinationName(transaction.getDestination().getFullName())
-                        .amount(transaction.getAmount())
-                        .status(transaction.getStatus().toString())
-                        .build()
-        );
-    }
+   @Override
+   public void notify(Transaction transaction) {
+      log.info("TransferNotificationPublisher::notify - Publishing message for transaction with id {} and Source Name {}", transaction.getId(), transaction.getSource().getFullName());
+      this.rabbitTemplate.convertAndSend(
+            this.exchange,
+            "",
+            TransferNotificationDTO.builder()
+                  .sourceName(transaction.getSource().getFullName())
+                  .destinationName(transaction.getDestination().getFullName())
+                  .amount(transaction.getAmount())
+                  .status(transaction.getStatus().toString())
+                  .build()
+      );
+   }
 }

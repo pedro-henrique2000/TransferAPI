@@ -22,29 +22,29 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "User Management", description = "User Management Endpoints")
 public class LoginController {
 
-    private final AuthenticateUser authenticateUser;
+   private final AuthenticateUser authenticateUser;
 
-    @PostMapping()
-    @Operation(
-            description = "Authenticate Endpoint",
-            summary = "Authenticate Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "200",
-                            content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))
-                    )
-            })
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
-        String token = this.authenticateUser.invoke(
-                authenticationRequest.getEmail(),
-                authenticationRequest.getPassword()
-        );
+   @PostMapping()
+   @Operation(
+         description = "Authenticate Endpoint",
+         summary = "Authenticate Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "200",
+                     content = @Content(schema = @Schema(implementation = AuthenticationResponse.class))
+               )
+         })
+   public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody @Valid AuthenticationRequest authenticationRequest) {
+      String token = this.authenticateUser.invoke(
+            authenticationRequest.getEmail(),
+            authenticationRequest.getPassword()
+      );
 
-        return ResponseEntity.ok(
-                AuthenticationResponse.builder()
-                        .accessToken(token)
-                        .build());
-    }
+      return ResponseEntity.ok(
+            AuthenticationResponse.builder()
+                  .accessToken(token)
+                  .build());
+   }
 
 }

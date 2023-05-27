@@ -9,12 +9,12 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AmqpProducerConfig {
 
-    @Value("${spring.rabbitmq.notifyTransactionExchange}")
-    private String exchange;
+   @Value("${spring.rabbitmq.notifyTransactionExchange}")
+   private String exchange;
 
-    @Bean
-    public FanoutExchange requiredActionsExchange() {
-        return ExchangeBuilder.fanoutExchange(this.exchange).build();
-    }
+   @Bean
+   public FanoutExchange requiredActionsExchange() {
+      return ExchangeBuilder.fanoutExchange(this.exchange).build();
+   }
 
 }

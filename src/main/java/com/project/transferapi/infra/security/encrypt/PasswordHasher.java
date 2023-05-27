@@ -10,16 +10,16 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PasswordHasher implements EncryptPasswordPort, PasswordComparerPort {
 
-    private final PasswordEncoder passwordEncoder;
+   private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public String encrypt(final String password) {
-        return this.passwordEncoder.encode(password);
-    }
+   @Override
+   public String encrypt(final String password) {
+      return this.passwordEncoder.encode(password);
+   }
 
-    @Override
-    public boolean equals(String password, String encrypted) {
-        return this.passwordEncoder.matches(password, encrypted);
-    }
+   @Override
+   public boolean equals(String password, String encrypted) {
+      return this.passwordEncoder.matches(password, encrypted);
+   }
 
 }

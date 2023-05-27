@@ -9,6 +9,6 @@ import java.util.Map;
 @SuperBuilder
 public class ValidationExceptionDetails extends ExceptionDetails {
 
-    private Map<String, String> violations;
+   private Map<String, String> violations;
 
 }

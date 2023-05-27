@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class FindUserById {
 
-    private final FindUserByIdPort findUserByIdPort;
+   private final FindUserByIdPort findUserByIdPort;
 
-    public User invoke(final Long id) {
-        return this.findUserByIdPort.findUserById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Not found user with id " + id));
-    }
+   public User invoke(final Long id) {
+      return this.findUserByIdPort.findUserById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Not found user with id " + id));
+   }
 
 }

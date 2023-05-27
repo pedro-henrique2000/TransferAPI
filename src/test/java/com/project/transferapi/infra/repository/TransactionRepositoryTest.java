@@ -7,31 +7,31 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TransactionRepositoryTest {
 
-    @InjectMocks
-    TransactionRepository transactionRepository;
+   @InjectMocks
+   TransactionRepository transactionRepository;
 
-    @Mock
-    JpaTransactionRepository jpaTransactionRepository;
+   @Mock
+   JpaTransactionRepository jpaTransactionRepository;
 
-    @Mock
-    Transaction transactionToSave;
+   @Mock
+   Transaction transactionToSave;
 
-    @Mock
-    Transaction savedTransaction;
+   @Mock
+   Transaction savedTransaction;
 
-    @Test
-    void whenSaveTransaction_givenTransaction_thenCallSave() {
-        when(jpaTransactionRepository.save(transactionToSave)).thenReturn(savedTransaction);
+   @Test
+   void whenSaveTransaction_givenTransaction_thenCallSave() {
+      when(jpaTransactionRepository.save(transactionToSave)).thenReturn(savedTransaction);
 
-        Transaction res = this.transactionRepository.save(transactionToSave);
+      Transaction res = this.transactionRepository.save(transactionToSave);
 
-        assertEquals(savedTransaction, res);
-    }
+      assertEquals(savedTransaction, res);
+   }
 
 }

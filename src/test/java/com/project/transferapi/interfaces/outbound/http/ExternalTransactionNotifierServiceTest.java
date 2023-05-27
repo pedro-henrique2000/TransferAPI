@@ -15,20 +15,20 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class ExternalTransactionNotifierServiceTest {
 
-    @InjectMocks
-    ExternalTransactionNotifierService transactionNotifierService;
+   @InjectMocks
+   ExternalTransactionNotifierService transactionNotifierService;
 
-    @Mock
-    ExternalTransactionNotifierFeignClient externalTransactionNotifierFeignClient;
+   @Mock
+   ExternalTransactionNotifierFeignClient externalTransactionNotifierFeignClient;
 
-    @Test
-    void shouldCallClient() {
-        ResponseEntity responseEntity = mock(ResponseEntity.class);
-        when(responseEntity.getStatusCode()).thenReturn(HttpStatusCode.valueOf(200));
-        when(externalTransactionNotifierFeignClient.invoke()).thenReturn(responseEntity);
+   @Test
+   void shouldCallClient() {
+      ResponseEntity responseEntity = mock(ResponseEntity.class);
+      when(responseEntity.getStatusCode()).thenReturn(HttpStatusCode.valueOf(200));
+      when(externalTransactionNotifierFeignClient.invoke()).thenReturn(responseEntity);
 
-        this.transactionNotifierService.sendNotification("source", "dest", BigDecimal.TEN, "stat");
-        verify(this.externalTransactionNotifierFeignClient, times(1)).invoke();
-    }
+      this.transactionNotifierService.sendNotification("source", "dest", BigDecimal.TEN, "stat");
+      verify(this.externalTransactionNotifierFeignClient, times(1)).invoke();
+   }
 
 }

@@ -13,15 +13,15 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class TransferNotificationConsumer {
 
-    private final TransferNotificator transferNotificator;
+   private final TransferNotificator transferNotificator;
 
-    @RabbitListener(queues = "${spring.rabbitmq.notifyTransactionQueue}", concurrency = "1")
-    public void consume(@Payload TransferNotificationDTO transferNotificationDTO) {
-        log.info("TransferNotificationConsumer::consume - Received Transaction with source user {} ", transferNotificationDTO.getSourceName());
-        this.transferNotificator.invoke(transferNotificationDTO.getSourceName(),
-                transferNotificationDTO.getDestinationName(),
-                transferNotificationDTO.getAmount(),
-                transferNotificationDTO.getStatus());
-    }
+   @RabbitListener(queues = "${spring.rabbitmq.notifyTransactionQueue}", concurrency = "1")
+   public void consume(@Payload TransferNotificationDTO transferNotificationDTO) {
+      log.info("TransferNotificationConsumer::consume - Received Transaction with source user {} ", transferNotificationDTO.getSourceName());
+      this.transferNotificator.invoke(transferNotificationDTO.getSourceName(),
+            transferNotificationDTO.getDestinationName(),
+            transferNotificationDTO.getAmount(),
+            transferNotificationDTO.getStatus());
+   }
 
 }

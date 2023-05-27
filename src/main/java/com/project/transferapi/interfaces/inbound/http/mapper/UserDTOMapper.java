@@ -11,16 +11,16 @@ import java.math.BigDecimal;
 @Component
 public class UserDTOMapper {
 
-    public User toUserEntity(CreateUserRequest createUserRequest) {
-        return User.builder()
-                .balance(BigDecimal.ZERO)
-                .fullName(createUserRequest.getFullName())
-                .type(UserType.valueOf(createUserRequest.getType()))
-                .email(createUserRequest.getEmail())
-                .password(createUserRequest.getPassword())
-                .role(Role.USER)
-                .legalDocumentNumber(createUserRequest.getLegalDocumentNumber())
-                .build();
-    }
+   public User toUserEntity(CreateUserRequest createUserRequest) {
+      return User.builder()
+            .balance(BigDecimal.ZERO)
+            .fullName(createUserRequest.getFullName())
+            .type(UserType.valueOf(createUserRequest.getType()))
+            .email(createUserRequest.getEmail())
+            .password(createUserRequest.getPassword())
+            .role(Role.USER)
+            .legalDocumentNumber(createUserRequest.getLegalDocumentNumber())
+            .build();
+   }
 
 }

@@ -18,27 +18,27 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TransferNotificationPublisherTest {
 
-    @InjectMocks
-    TransferNotificationPublisher transferNotificationPublisher;
+   @InjectMocks
+   TransferNotificationPublisher transferNotificationPublisher;
 
-    @Mock
-    RabbitTemplate rabbitTemplate;
+   @Mock
+   RabbitTemplate rabbitTemplate;
 
-    @Mock
-    Transaction transaction;
+   @Mock
+   Transaction transaction;
 
-    @BeforeEach()
-    void setup() {
-        ReflectionTestUtils.setField(this.transferNotificationPublisher, "exchange", "any_exchange");
-        when(transaction.getStatus()).thenReturn(TransactionStatus.COMPLETED);
-        when(transaction.getDestination()).thenReturn(mock(User.class));
-        when(transaction.getSource()).thenReturn(mock(User.class));
-    }
+   @BeforeEach()
+   void setup() {
+      ReflectionTestUtils.setField(this.transferNotificationPublisher, "exchange", "any_exchange");
+      when(transaction.getStatus()).thenReturn(TransactionStatus.COMPLETED);
+      when(transaction.getDestination()).thenReturn(mock(User.class));
+      when(transaction.getSource()).thenReturn(mock(User.class));
+   }
 
-    @Test
-    void shouldCallRabbitTemplateSend() {
-        this.transferNotificationPublisher.notify(transaction);
-        verify(rabbitTemplate, times(1)).convertAndSend(eq("any_exchange"), eq(""), any(TransferNotificationDTO.class));
-    }
+   @Test
+   void shouldCallRabbitTemplateSend() {
+      this.transferNotificationPublisher.notify(transaction);
+      verify(rabbitTemplate, times(1)).convertAndSend(eq("any_exchange"), eq(""), any(TransferNotificationDTO.class));
+   }
 
 }

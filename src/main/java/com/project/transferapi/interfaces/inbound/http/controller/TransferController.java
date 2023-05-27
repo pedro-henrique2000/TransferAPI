@@ -18,30 +18,30 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Transfer Management", description = "Transfer Management Endpoints")
 public class TransferController {
 
-    private final TransferAmount transferAmount;
+   private final TransferAmount transferAmount;
 
-    @PreAuthorize("#transferAmountRequest.sourceId == authentication.principal.id")
-    @PostMapping()
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(
-            description = "Execute an Transaction",
-            summary = "Transaction Endpoint",
-            responses = {
-                    @ApiResponse(
-                            description = "Success Response",
-                            responseCode = "201"
-                    )
-            })
-    public ResponseEntity<Void> transfer(@RequestBody @Valid TransferAmountRequest transferAmountRequest) {
-        this.transferAmount.invoke(
-                transferAmountRequest.getSourceId(),
-                transferAmountRequest.getDestinationId(),
-                transferAmountRequest.getAmount()
-        );
+   @PreAuthorize("#transferAmountRequest.sourceId == authentication.principal.id")
+   @PostMapping()
+   @ResponseStatus(HttpStatus.CREATED)
+   @Operation(
+         description = "Execute an Transaction",
+         summary = "Transaction Endpoint",
+         responses = {
+               @ApiResponse(
+                     description = "Success Response",
+                     responseCode = "201"
+               )
+         })
+   public ResponseEntity<Void> transfer(@RequestBody @Valid TransferAmountRequest transferAmountRequest) {
+      this.transferAmount.invoke(
+            transferAmountRequest.getSourceId(),
+            transferAmountRequest.getDestinationId(),
+            transferAmountRequest.getAmount()
+      );
 
-        return ResponseEntity
-                .status(201)
-                .build();
-    }
+      return ResponseEntity
+            .status(201)
+            .build();
+   }
 
 }

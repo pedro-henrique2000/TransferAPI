@@ -6,5 +6,5 @@ import lombok.Setter;
 @Setter
 @Getter
 public class ExternalAuthorizerResponseDTO {
-    private String message;
+   private String message;
 }

@@ -16,27 +16,27 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class TransferNotificationConsumerTest {
 
-    @InjectMocks
-    TransferNotificationConsumer consumer;
+   @InjectMocks
+   TransferNotificationConsumer consumer;
 
-    @Mock
-    TransferNotificator transferNotificator;
+   @Mock
+   TransferNotificator transferNotificator;
 
-    @Mock
-    TransferNotificationDTO transferNotificationDTO;
+   @Mock
+   TransferNotificationDTO transferNotificationDTO;
 
-    @BeforeEach
-    void setup() {
-        when(transferNotificationDTO.getStatus()).thenReturn("status");
-        when(transferNotificationDTO.getAmount()).thenReturn(BigDecimal.TEN);
-        when(transferNotificationDTO.getSourceName()).thenReturn("source");
-        when(transferNotificationDTO.getDestinationName()).thenReturn("dest");
-    }
+   @BeforeEach
+   void setup() {
+      when(transferNotificationDTO.getStatus()).thenReturn("status");
+      when(transferNotificationDTO.getAmount()).thenReturn(BigDecimal.TEN);
+      when(transferNotificationDTO.getSourceName()).thenReturn("source");
+      when(transferNotificationDTO.getDestinationName()).thenReturn("dest");
+   }
 
-    @Test
-    void shouldCallTransferNotificator() {
-        consumer.consume(transferNotificationDTO);
-        verify(this.transferNotificator, times(1)).invoke("source", "dest", BigDecimal.TEN, "status");
-    }
+   @Test
+   void shouldCallTransferNotificator() {
+      consumer.consume(transferNotificationDTO);
+      verify(this.transferNotificator, times(1)).invoke("source", "dest", BigDecimal.TEN, "status");
+   }
 
 }

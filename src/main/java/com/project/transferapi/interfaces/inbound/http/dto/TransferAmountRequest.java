@@ -15,24 +15,24 @@ import java.util.Objects;
 @Getter
 public class TransferAmountRequest {
 
-    @NotNull
-    @Schema(description = "User that will send the transfer amount", example = "1")
-    private Long sourceId;
+   @NotNull
+   @Schema(description = "User that will send the transfer amount", example = "1")
+   private Long sourceId;
 
-    @NotNull
-    @Schema(description = "User that will receive the transfer amount", example = "2")
-    private Long destinationId;
+   @NotNull
+   @Schema(description = "User that will receive the transfer amount", example = "2")
+   private Long destinationId;
 
-    @NotNull
-    @Positive
-    @Schema(description = "Amount to be transferer", example = "10.00")
-    private BigDecimal amount;
+   @NotNull
+   @Positive
+   @Schema(description = "Amount to be transferer", example = "10.00")
+   private BigDecimal amount;
 
-    @AssertTrue(message = "source and destination cannot be the same")
-    @JsonIgnore
-    @Schema(hidden = true)
-    public boolean isSourceAndDestinationNotEqual() {
-        return !Objects.equals(sourceId, destinationId);
-    }
+   @AssertTrue(message = "source and destination cannot be the same")
+   @JsonIgnore
+   @Schema(hidden = true)
+   public boolean isSourceAndDestinationNotEqual() {
+      return !Objects.equals(sourceId, destinationId);
+   }
 
 }

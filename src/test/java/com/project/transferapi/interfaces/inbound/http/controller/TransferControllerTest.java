@@ -12,27 +12,28 @@ import org.springframework.http.ResponseEntity;
 
 import java.math.BigDecimal;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class TransferControllerTest {
 
-    @InjectMocks
-    TransferController transferController;
+   @InjectMocks
+   TransferController transferController;
 
-    @Mock
-    TransferAmount transferAmount;
+   @Mock
+   TransferAmount transferAmount;
 
-    @Test
-    void shouldCallTransferAmount() {
-        TransferAmountRequest transferAmountRequest = new TransferAmountRequest();
-        transferAmountRequest.setAmount(BigDecimal.TEN);
-        transferAmountRequest.setSourceId(1L);
-        transferAmountRequest.setDestinationId(2L);
+   @Test
+   void shouldCallTransferAmount() {
+      TransferAmountRequest transferAmountRequest = new TransferAmountRequest();
+      transferAmountRequest.setAmount(BigDecimal.TEN);
+      transferAmountRequest.setSourceId(1L);
+      transferAmountRequest.setDestinationId(2L);
 
-        ResponseEntity<Void> response = transferController.transfer(transferAmountRequest);
+      ResponseEntity<Void> response = transferController.transfer(transferAmountRequest);
 
-        verify(this.transferAmount, times(1)).invoke(1L, 2L, BigDecimal.TEN);
-        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
-    }
+      verify(this.transferAmount, times(1)).invoke(1L, 2L, BigDecimal.TEN);
+      Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
+   }
 }

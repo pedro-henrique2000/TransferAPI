@@ -13,27 +13,27 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Objects;
 
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class LoginControllerTest {
 
-    @InjectMocks
-    LoginController loginController;
+   @InjectMocks
+   LoginController loginController;
 
-    @Mock
-    AuthenticateUser authenticateUser;
+   @Mock
+   AuthenticateUser authenticateUser;
 
-    @Test
-    void shouldCallTransferAmount() {
-        AuthenticationRequest authenticationRequest = new AuthenticationRequest();
-        authenticationRequest.setEmail("email");
-        authenticationRequest.setPassword("password");
-        when(authenticateUser.invoke("email", "password")).thenReturn("token");
+   @Test
+   void shouldCallTransferAmount() {
+      AuthenticationRequest authenticationRequest = new AuthenticationRequest();
+      authenticationRequest.setEmail("email");
+      authenticationRequest.setPassword("password");
+      when(authenticateUser.invoke("email", "password")).thenReturn("token");
 
-        ResponseEntity<AuthenticationResponse> response = loginController.authenticate(authenticationRequest);
+      ResponseEntity<AuthenticationResponse> response = loginController.authenticate(authenticationRequest);
 
-        Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
-        Assertions.assertEquals("token", Objects.requireNonNull(response.getBody()).getAccessToken());
-    }
+      Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
+      Assertions.assertEquals("token", Objects.requireNonNull(response.getBody()).getAccessToken());
+   }
 }

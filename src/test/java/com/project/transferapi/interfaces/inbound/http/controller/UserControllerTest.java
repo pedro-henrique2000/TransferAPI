@@ -12,38 +12,38 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserControllerTest {
 
-    @InjectMocks
-    UserController controller;
+   @InjectMocks
+   UserController controller;
 
-    @Mock
-    CreateUser createUser;
+   @Mock
+   CreateUser createUser;
 
-    @Mock
-    UserDTOMapper userDTOMapper;
+   @Mock
+   UserDTOMapper userDTOMapper;
 
-    @Mock
-    CreateUserRequest createUserRequest;
+   @Mock
+   CreateUserRequest createUserRequest;
 
-    @Mock
-    User user;
+   @Mock
+   User user;
 
-    @Test
-    void whenPostNewUser_givenValidData_shouldCallCreateUserMethod() {
-        when(this.userDTOMapper.toUserEntity(createUserRequest)).thenReturn(user);
-        controller.postUser(createUserRequest);
+   @Test
+   void whenPostNewUser_givenValidData_shouldCallCreateUserMethod() {
+      when(this.userDTOMapper.toUserEntity(createUserRequest)).thenReturn(user);
+      controller.postUser(createUserRequest);
 
-        verify(this.createUser, times(1)).invoke(user);
-    }
+      verify(this.createUser, times(1)).invoke(user);
+   }
 
-    @Test
-    void whenPostNewUser_givenValidData_shouldReturnStatus201() {
-        ResponseEntity<Void> response = controller.postUser(createUserRequest);
-        assertEquals(HttpStatusCode.valueOf(201), response.getStatusCode());
-    }
+   @Test
+   void whenPostNewUser_givenValidData_shouldReturnStatus201() {
+      ResponseEntity<Void> response = controller.postUser(createUserRequest);
+      assertEquals(HttpStatusCode.valueOf(201), response.getStatusCode());
+   }
 }
