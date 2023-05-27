@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "users", indexes = {
+@Table(name = "tb_users", indexes = {
         @Index(columnList = "legalDocumentNumber"),
         @Index(columnList = "email")
 })
@@ -96,4 +96,39 @@ public class User {
         this.balance = this.balance.add(amount);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (!getId().equals(user.getId())) return false;
+        if (!getFullName().equals(user.getFullName())) return false;
+        if (!getLegalDocumentNumber().equals(user.getLegalDocumentNumber())) return false;
+        if (!getEmail().equals(user.getEmail())) return false;
+        if (!getPassword().equals(user.getPassword())) return false;
+        if (!getReceivedTransactions().equals(user.getReceivedTransactions())) return false;
+        if (!getSentTransactions().equals(user.getSentTransactions())) return false;
+        if (!getBalance().equals(user.getBalance())) return false;
+        if (getType() != user.getType()) return false;
+        if (!getCreatedAt().equals(user.getCreatedAt())) return false;
+        return getUpdatedAt().equals(user.getUpdatedAt());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getId().hashCode();
+        result = 31 * result + getFullName().hashCode();
+        result = 31 * result + getLegalDocumentNumber().hashCode();
+        result = 31 * result + getEmail().hashCode();
+        result = 31 * result + getPassword().hashCode();
+        result = 31 * result + getReceivedTransactions().hashCode();
+        result = 31 * result + getSentTransactions().hashCode();
+        result = 31 * result + getBalance().hashCode();
+        result = 31 * result + getType().hashCode();
+        result = 31 * result + getCreatedAt().hashCode();
+        result = 31 * result + getUpdatedAt().hashCode();
+        return result;
+    }
 }
