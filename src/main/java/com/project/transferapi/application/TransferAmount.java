@@ -32,18 +32,18 @@ public class TransferAmount {
             throw new BusinessException("Source User is a shopper and does not have permission to transfer");
         }
 
-        boolean wasDecreased = sourceUser.decreaseBalance(amount);
-        if (!wasDecreased) {
-            log.warn("TransferAmount::invoke - Transaction from user {} to {} failed due to insufficient funds.", sourceId, destinationId);
-            this.createTransaction.invoke(destinationUser, sourceUser, amount, INSUFFICIENT_FUNDS);
-            throw new BusinessException("Insufficient funds");
-        }
-
         boolean wasTransactionApproved = this.externalTransactionAuthorizer.invoke();
         if (!wasTransactionApproved) {
             log.warn("TransferAmount::invoke - Transaction from user {} to {} was not authorized by the external service.", sourceId, destinationId);
             this.createTransaction.invoke(destinationUser, sourceUser, amount, NOT_AUTHORIZED);
             throw new BusinessException("Transaction was not authorized by the external service");
+        }
+
+        boolean wasDecreased = sourceUser.decreaseBalance(amount);
+        if (!wasDecreased) {
+            log.warn("TransferAmount::invoke - Transaction from user {} to {} failed due to insufficient funds.", sourceId, destinationId);
+            this.createTransaction.invoke(destinationUser, sourceUser, amount, INSUFFICIENT_FUNDS);
+            throw new BusinessException("Insufficient funds");
         }
 
         destinationUser.increaseBalance(amount);
