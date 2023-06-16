@@ -1,4 +1,4 @@
-package com.project.transferapi.infra.security;
+package com.project.transferapi.infra.security.config;
 
 import com.project.transferapi.domain.ports.ManagerAuthenticationPort;
 import lombok.RequiredArgsConstructor;

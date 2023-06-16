@@ -1,11 +1,9 @@
 package com.project.transferapi.application;
 
+import com.project.transferapi.domain.entity.Authentication;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.ConflictException;
-import com.project.transferapi.domain.ports.EncryptPasswordPort;
-import com.project.transferapi.domain.ports.SaveUserRepositoryPort;
-import com.project.transferapi.domain.ports.UserExistsByEmailRepositoryPort;
-import com.project.transferapi.domain.ports.UserExistsByLegalDocumentNumberRepositoryPort;
+import com.project.transferapi.domain.ports.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +41,12 @@ class CreateUserTest {
    @Mock
    User savedUser;
 
+   @Mock
+   SaveUserToken saveUserToken;
+
+   @Mock
+   TokenHandlerPort generateAccessToken;
+
    @Captor
    ArgumentCaptor<User> userToSave;
 
@@ -56,13 +60,16 @@ class CreateUserTest {
       lenient().when(this.userExistsByLegalDocumentNumberRepository.existsByDocumentNumber("any_document")).thenReturn(false);
       lenient().when(this.userExistsByEmailRepository.existsByEmail("any_mail@mail.com")).thenReturn(false);
       lenient().when(this.encryptPassword.encrypt("any_password")).thenReturn("encrypted_password");
+      lenient().when(this.generateAccessToken.generateToken(savedUser)).thenReturn("token");
+      lenient().when(this.generateAccessToken.generateRefreshToken(savedUser)).thenReturn("refresh");
       lenient().when(this.saveUserRepository.save(any(User.class))).thenReturn(savedUser);
    }
 
    @Test
    void whenSaveNewUser_givenValidData_thenReturnSavedId() {
-      Long id = this.createUser.invoke(user);
-      assertEquals(1L, id);
+      Authentication authentication = this.createUser.invoke(user);
+      assertEquals("token", authentication.getAccessToken());
+      assertEquals("refresh", authentication.getRefreshToken());
    }
 
    @Test
@@ -85,6 +92,12 @@ class CreateUserTest {
    void whenSaveNewUser_givenValidPassword_thenCallPasswordEncrypt() {
       this.createUser.invoke(user);
       verify(this.encryptPassword, atLeastOnce()).encrypt("any_password");
+   }
+
+   @Test
+   void whenSaveNewUser_givenGeneratedToken_thenCallSaveTokenMethod() {
+      this.createUser.invoke(user);
+      verify(this.saveUserToken, atLeastOnce()).invoke( "token", savedUser);
    }
 
    @Test

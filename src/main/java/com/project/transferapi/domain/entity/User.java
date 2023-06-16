@@ -68,6 +68,9 @@ public class User implements UserDetails {
    @Column(nullable = false)
    private LocalDateTime updatedAt;
 
+   @OneToMany(mappedBy = "user")
+   private List<Token> tokens;
+
    public void updatePassword(String password) {
       this.password = password;
    }

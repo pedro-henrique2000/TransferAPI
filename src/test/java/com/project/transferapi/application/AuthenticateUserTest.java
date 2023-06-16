@@ -1,10 +1,11 @@
 package com.project.transferapi.application;
 
+import com.project.transferapi.domain.entity.Authentication;
 import com.project.transferapi.domain.entity.Role;
 import com.project.transferapi.domain.entity.User;
 import com.project.transferapi.domain.exceptions.BadCredentialsException;
 import com.project.transferapi.domain.ports.FindUserByEmailPort;
-import com.project.transferapi.domain.ports.GenerateAccessTokenPort;
+import com.project.transferapi.domain.ports.TokenHandlerPort;
 import com.project.transferapi.domain.ports.ManagerAuthenticationPort;
 import com.project.transferapi.domain.ports.PasswordComparerPort;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,9 +31,13 @@ class AuthenticateUserTest {
    @Mock
    FindUserByEmailPort findUserByEmail;
    @Mock
-   GenerateAccessTokenPort generateAccessToken;
+   TokenHandlerPort generateAccessToken;
    @Mock
    PasswordComparerPort passwordComparer;
+   @Mock
+   RevokeUserTokens revokeUserTokens;
+   @Mock
+   SaveUserToken saveUserToken;
    @Mock
    User user;
 
@@ -43,14 +48,18 @@ class AuthenticateUserTest {
       lenient().when(this.user.getRole()).thenReturn(Role.USER);
       lenient().when(this.findUserByEmail.findByEmail("email")).thenReturn(Optional.of(user));
       lenient().when(this.passwordComparer.equals("password", "hash")).thenReturn(true);
-      lenient().when(this.generateAccessToken.generateToken(user, 1L, "USER")).thenReturn("token");
+      lenient().when(this.generateAccessToken.generateToken(user)).thenReturn("token");
+      lenient().when(this.generateAccessToken.generateRefreshToken(user)).thenReturn("refreshToken");
    }
 
    @Test
    void shouldReturnAccessToken() {
-      String token = this.authenticateUser.invoke("email", "password");
-      assertEquals("token", token);
+      Authentication authentication = this.authenticateUser.invoke("email", "password");
+      assertEquals("refreshToken", authentication.getRefreshToken());
+      assertEquals("token", authentication.getAccessToken());
       verify(this.managerAuthenticationPort, times(1)).authentication("email", "password");
+      verify(this.revokeUserTokens, times(1)).invoke(user);
+      verify(this.saveUserToken, times(1)).invoke("token", user);
    }
 
    @Test

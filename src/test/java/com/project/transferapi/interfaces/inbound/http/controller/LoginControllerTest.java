@@ -1,6 +1,7 @@
 package com.project.transferapi.interfaces.inbound.http.controller;
 
 import com.project.transferapi.application.AuthenticateUser;
+import com.project.transferapi.domain.entity.Authentication;
 import com.project.transferapi.interfaces.inbound.http.dto.AuthenticationRequest;
 import com.project.transferapi.interfaces.inbound.http.dto.AuthenticationResponse;
 import org.junit.jupiter.api.Assertions;
@@ -25,15 +26,21 @@ class LoginControllerTest {
    AuthenticateUser authenticateUser;
 
    @Test
-   void shouldCallTransferAmount() {
+   void shouldLogin() {
       AuthenticationRequest authenticationRequest = new AuthenticationRequest();
       authenticationRequest.setEmail("email");
       authenticationRequest.setPassword("password");
-      when(authenticateUser.invoke("email", "password")).thenReturn("token");
+      when(authenticateUser.invoke("email", "password")).thenReturn(Authentication.builder()
+                      .accessToken("token")
+                      .refreshToken("refresh")
+
+              .build());
 
       ResponseEntity<AuthenticationResponse> response = loginController.authenticate(authenticationRequest);
 
       Assertions.assertTrue(response.getStatusCode().is2xxSuccessful());
-      Assertions.assertEquals("token", Objects.requireNonNull(response.getBody()).getAccessToken());
+      Assertions.assertEquals("token", response.getBody().getAccessToken());
+      Assertions.assertEquals("refresh", response.getBody().getRefreshToken());
+
    }
 }
