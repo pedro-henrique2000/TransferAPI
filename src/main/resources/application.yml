@@ -22,9 +22,9 @@ spring:
 application:
   jwt:
     key: "6351655468576D5A7134743777217A25432A462D4A614E645267556A586E3272"
-    expiration: 60000
+    expiration: 360000
     refresh-token:
-      expiration: 180000
+      expiration: 3600000
 
 management:
   endpoints:

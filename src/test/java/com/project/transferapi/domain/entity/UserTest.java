@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -71,6 +72,7 @@ class UserTest {
    void shouldReturnExpectedValues() {
       User user = User.builder()
             .id(1L)
+              .tokens(List.of(new Token()))
             .createdAt(LocalDateTime.now())
             .updatedAt(LocalDateTime.now())
             .build();
@@ -78,6 +80,7 @@ class UserTest {
       assertEquals(1L, user.getId());
       assertNotNull(user.getCreatedAt());
       assertNotNull(user.getUpdatedAt());
+      assertFalse(user.getTokens().isEmpty());
       assertTrue(new User() instanceof User);
    }
 

@@ -21,8 +21,7 @@ public class CustomAuthenticationProvider {
 
    @Bean
    public UserDetailsService userDetailsService() {
-      return username -> findUserByEmail.findByEmail(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+      return username -> findUserByEmail.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
    }
 
    @Bean
